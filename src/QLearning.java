@@ -62,7 +62,7 @@ class QLearning
      */
     QLearning(GridWorld gridWorld)
     {
-        this(gridWorld, 0.1, 0.01);
+        this(gridWorld, 0.9, 0.1);
     }
 
     /**
@@ -106,7 +106,7 @@ class QLearning
                 rnd = Math.random();
 
                 // Select random action if rnd > epsilon, otherwise action with highest reward
-                if (rnd < 0.5)
+                if (rnd < 0.6)
                     next = getRandomNeighbour(current);
                 else
                     next = getMaxNeighbour(w, current);
@@ -150,8 +150,8 @@ class QLearning
         // Iterate over all states
         for(int i=0; i < gridWorld.getSize(); i++)
         {
-            row = (int) Math.floor((double) i/nrActions);
-            column = i % nrActions;
+            row = (int) Math.floor((double) i/gridWorld.getColumns());
+            column = i % gridWorld.getColumns();
             policy.setCell(row, column, new Vector(qTable[i]));
         }
         System.out.println("Stopped computing optimal policy");

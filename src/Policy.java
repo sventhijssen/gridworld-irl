@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -33,76 +35,79 @@ class Policy
         this.policy[row][column].setContents(transition);
     }
 
-    //TODO: Check if you have already been here. If you have, ignore state and pick second highest
-    // UGLY CODE :o
-    private Cell getNextCell(Cell current, LinkedList<Cell> path)
+    private Cell getNeighbouringCell(Position current, int direction)
     {
-        LinkedList<Position> neighbourPositions = this.getNeighbours(current.getRow(), current.getColumn());
-        LinkedList<Position> visitedPositions = new LinkedList<>();
-        for(Cell cell: path)
-        {
-            visitedPositions.add(new Position(cell.getRow(), cell.getColumn()));
-        }
-        neighbourPositions.removeAll(visitedPositions);
-
-        Set<Integer> directions = new HashSet<>();
-
-        for(Position position: neighbourPositions)
-        {
-            if(position.getRow() == current.getRow()-1 && position.getColumn() == current.getColumn())
-                directions.add(0);
-            if(position.getRow() == current.getRow() && position.getColumn() == current.getColumn()+1)
-                directions.add(1);
-            if(position.getRow() == current.getRow()+1 && position.getColumn() == current.getColumn())
-                directions.add(2);
-            if(position.getRow() == current.getRow() && position.getColumn() == current.getColumn()-1)
-                directions.add(3);
-        }
-
-        double[] prob = ((Vector) current.getContents()).getData();
-        double m = prob[0];
-        int index = 0;
-        for(int i=0; i < prob.length; i++)
-        {
-            if(directions.contains(i) && prob[i] > m)
-            {
-                m = prob[i];
-                index = i;
-            }
-        }
-
-        return current.getNeighbour(index);
+        System.out.println(current);
+        System.out.println(direction);
+        if(direction == 0)
+            return policy[current.getRow()-1][current.getColumn()];
+        if(direction == 1)
+            return policy[current.getRow()][current.getColumn()+1];
+        if(direction == 2)
+            return policy[current.getRow()+1][current.getColumn()];
+        if(direction == 3)
+            return policy[current.getRow()][current.getColumn()-1];
+        throw new RuntimeException("Undefined direction");
     }
 
-    public LinkedList<Position> getNeighbours(int row, int column)
+    private Cell getNextCell(Position current)
     {
-        LinkedList<Position> neighbours = new LinkedList<>();
+        Cell currentCell = policy[current.getRow()][current.getColumn()];
+        Vector transitions = (Vector) currentCell.getContents();
+        LinkedList<Integer> possibleDirections = getPossibleDirections(current.getRow(), current.getColumn());
+        double[] probabilities = transitions.getData();
+        System.out.println("NEXT CELL");
+        System.out.println(current);
+        System.out.println(possibleDirections);
+        System.out.println(Arrays.toString(probabilities));
+
+        double maxProbability = Double.MIN_VALUE;
+        int direction = 0;
+
+        for(int i=0; i < probabilities.length; i++)
+        {
+            if(possibleDirections.contains(i) && probabilities[i] > maxProbability)
+            {
+                maxProbability = probabilities[i];
+                direction = i;
+            }
+        }
+        System.out.println(direction);
+        return getNeighbouringCell(current, direction);
+    }
+
+
+    public LinkedList<Integer> getPossibleDirections(int row, int column)
+    {
+        LinkedList<Integer> neighbours = new LinkedList<>();
         if(row > 0)
-            neighbours.add(new Position(row-1, column));
-        if(row < gridWorld.getRows()-1)
-            neighbours.add(new Position(row+1, column));
-        if(column > 0)
-            neighbours.add(new Position(row, column-1));
+            neighbours.add(0); // up
         if(column < gridWorld.getColumns()-1)
-            neighbours.add(new Position(row, column+1));
+            neighbours.add(1); // right
+        if(row < gridWorld.getRows()-1)
+            neighbours.add(2); // down
+        if(column > 0)
+            neighbours.add(3); // left
         return neighbours;
     }
 
     public LinkedList<Cell> getPath()
     {
         LinkedList<Cell> path = new LinkedList<>();
-        int row = 0;
-        int column = 0;
+        Position position = gridWorld.getStartPosition();
 
-        Cell start = this.getCell(row, column);
-        path.add(start);
+        path.add(getCell(position.getRow(), position.getColumn()));
 
-        Cell next = this.getNextCell(start, path);
+        Cell next = getNextCell(position);
+        position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        while(next.getRow() != gridWorld.getRows()-1 && next.getColumn() != gridWorld.getColumns()-1)
+        int maxSteps = 24;
+
+        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && path.size() < maxSteps)
         {
-            next = this.getNextCell(next, path);
+            next = this.getNextCell(position);
+            position = new Position(next.getRow(), next.getColumn());
             // System.out.format("(%d, %d)\n", next.getRow(), next.getColumn());
             path.add(next);
         }

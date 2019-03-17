@@ -14,6 +14,7 @@ class GridWorld
 
     private int columns;
 
+    private Position startPosition;
     private Position goalPosition;
 
     GridWorld(int rows, int columns)
@@ -127,5 +128,39 @@ class GridWorld
     public Position getGoalPosition()
     {
         return goalPosition;
+    }
+
+    public void getRewardHeatMap(int k, Vector weights)
+    {
+        double[][] m = new double[rows][columns];
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < columns; j++)
+            {
+                m[i][j] = weights.dot(this.getState(i, j).getFeatures());;
+            }
+        }
+
+
+
+        HeatChart map = new HeatChart(m);
+
+        try
+        {
+            map.saveToFile(new File("heatmap_rewards_"+k+".png"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void getStartPosition(int row, int column)
+    {
+        this.startPosition = new Position(row, column);
+    }
+
+    public Position getStartPosition()
+    {
+        return startPosition;
     }
 }

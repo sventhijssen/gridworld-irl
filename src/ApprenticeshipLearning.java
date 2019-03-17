@@ -52,7 +52,10 @@ class ApprenticeshipLearning
             // Step 4: Compute optimal policy pi_i for the MDP using rewards R = w^T.phi
             qLearning = new QLearning(gridWorld);
             qLearning.computeQTable(w, 100);
+            gridWorld.getRewardHeatMap(i, w);
             currentPolicy = qLearning.getPolicy();
+            System.out.println(w);
+            System.out.println(t);
             muCurrent = currentPolicy.getFeatureExpectations(discountFactor);
 
             System.out.printf("-STEP 5, ITERATION %d: Compute feature expectation mu(%d)\n", i, i);

@@ -264,43 +264,70 @@ public class Main
         GridWorld gridWorld = new GridWorld(rows, 6);
 
         // Row 0
-        gridWorld.setFeature(0,0, new double[] {1.0, (double) (Math.pow(1/6,2))});
-        gridWorld.setFeature(0,1, new double[] {0.1, (double) (Math.pow(1/5,2))});
-        gridWorld.setFeature(0,2, new double[] {0.05, (double) (Math.pow(1/4,2))});
-        gridWorld.setFeature(0,3, new double[] {0.05, (double) (Math.pow(1/3,2))});
-        gridWorld.setFeature(0,4, new double[] {0.1, (double) (Math.pow(1/2,2))});
-        gridWorld.setFeature(0,5, new double[] {1.0, (double) (Math.pow(1,2))});
+        gridWorld.setFeature(0,0, new double[] {1.0, 0});
+        gridWorld.setFeature(0,1, new double[] {0.4, 0.4});
+        gridWorld.setFeature(0,2, new double[] {0.6, 1});
+        gridWorld.setFeature(0,3, new double[] {0.6, 1});
+        gridWorld.setFeature(0,4, new double[] {0.4, 0.4});
+        gridWorld.setFeature(0,5, new double[] {1.0, 0});
 
 
         // Row 1
-        gridWorld.setFeature(1,0, new double[] {1.0, (double) (Math.pow(1/7,2))});
-        gridWorld.setFeature(1,1, new double[] {0.1, (double) (Math.pow(1/6,2))});
-        gridWorld.setFeature(1,2, new double[] {0.05, (double) (Math.pow(1/5,2))});
-        gridWorld.setFeature(1,3, new double[] {0.05, (double) (Math.pow(1/4,2))});
-        gridWorld.setFeature(1,4, new double[] {0.1, (double) (Math.pow(1/3,2))});
-        gridWorld.setFeature(1,5, new double[] {1.0, (double) (Math.pow(1/2,2))});
+        gridWorld.setFeature(1,0, new double[] {0.8, 0});
+        gridWorld.setFeature(1,1, new double[] {0.2, 0});
+        gridWorld.setFeature(1,2, new double[] {0.4, 0.4});
+        gridWorld.setFeature(1,3, new double[] {0.4, 0.4});
+        gridWorld.setFeature(1,4, new double[] {0.2, 0});
+        gridWorld.setFeature(1,5, new double[] {1.0, 0});
 
         // Row 2
-        gridWorld.setFeature(2,0, new double[] {1.0, (double) (Math.pow(1/8,2))});
-        gridWorld.setFeature(2,1, new double[] {1.0, (double) (Math.pow(1/7,2))});
-        gridWorld.setFeature(2,2, new double[] {1.0, (double) (Math.pow(1/6,2))});
-        gridWorld.setFeature(2,3, new double[] {1.0, (double) (Math.pow(1/5,2))});
-        gridWorld.setFeature(2,4, new double[] {1.0, (double) (Math.pow(1/4,2))});
-        gridWorld.setFeature(2,5, new double[] {1.0, (double) (Math.pow(1/3,2))});
+        gridWorld.setFeature(2,0, new double[] {0.8, 0});
+        gridWorld.setFeature(2,1, new double[] {0.8, 0});
+        gridWorld.setFeature(2,2, new double[] {0.8, 0});
+        gridWorld.setFeature(2,3, new double[] {0.8, 0});
+        gridWorld.setFeature(2,4, new double[] {0.8, 0});
+        gridWorld.setFeature(2,5, new double[] {0.8, 0});
 
         // Row 3
-        gridWorld.setFeature(3,0, new double[] {1.0, (double) (Math.pow(1/9,2))});
-        gridWorld.setFeature(3,1, new double[] {1.0, (double) (Math.pow(1/8,2))});
-        gridWorld.setFeature(3,2, new double[] {1.0, (double) (Math.pow(1/7,2))});
-        gridWorld.setFeature(3,3, new double[] {1.0, (double) (Math.pow(1/6,2))});
-        gridWorld.setFeature(3,4, new double[] {1.0, (double) (Math.pow(1/5,2))});
-        gridWorld.setFeature(3,5, new double[] {1.0, (double) (Math.pow(1/4,2))});
+        gridWorld.setFeature(3,0, new double[] {0.8, 0});
+        gridWorld.setFeature(3,1, new double[] {0.8, 0});
+        gridWorld.setFeature(3,2, new double[] {0.8, 0});
+        gridWorld.setFeature(3,3, new double[] {0.8, 0});
+        gridWorld.setFeature(3,4, new double[] {0.8, 0});
+        gridWorld.setFeature(3,5, new double[] {0.8, 0});
 
+        gridWorld.getStartPosition(0,0);
         gridWorld.setGoalPosition(0,5);
+
+
+        Policy expertPolicy = PolicyFactory.getRandomPolicy(gridWorld);
+        expertPolicy.setCell(0,0, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,1, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,2, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,3, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,4, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,5, new Vector(new double[] {0, 0.9, 0.1, 0}));
+
+        expertPolicy.setCell(1,0, new Vector(new double[] {0.1, 0.9, 0, 0}));
+        expertPolicy.setCell(1,1, new Vector(new double[] {0.6, 0.4, 0, 0}));
+        expertPolicy.setCell(1,2, new Vector(new double[] {0.8, 0.2, 0, 0}));
+        expertPolicy.setCell(1,3, new Vector(new double[] {0.8, 0.2, 0, 0}));
+        expertPolicy.setCell(1,4, new Vector(new double[] {0.4, 0.6, 0, 0}));
+        expertPolicy.setCell(1,5, new Vector(new double[] {0.9, 0.1, 0, 0}));
+
+        //ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(gridWorld, expertPolicy);
+        Vector weights;
+        // weights = apprenticeshipLearning.solve();
+
+        //gridWorld.getHeatMap(0);
+        //gridWorld.getHeatMap(1);
 
         QLearning qLearning;
 
-        Vector weights = new Vector(new double[] {0.1, 10});
+        //TODO: Switch 1 and -1 to see heat map difference
+        weights = new Vector(new double[] {1, -1});
+
+        gridWorld.getRewardHeatMap(0, weights);
 
         qLearning = new QLearning(gridWorld);
         qLearning.computeQTable(weights, 100);
