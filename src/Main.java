@@ -301,31 +301,31 @@ public class Main
 
 
         Policy expertPolicy = PolicyFactory.getRandomPolicy(gridWorld);
-        expertPolicy.setCell(0,0, new Vector(new double[] {0, 0.9, 0.1, 0}));
-        expertPolicy.setCell(0,1, new Vector(new double[] {0, 0.9, 0.1, 0}));
-        expertPolicy.setCell(0,2, new Vector(new double[] {0, 0.9, 0.1, 0}));
-        expertPolicy.setCell(0,3, new Vector(new double[] {0, 0.9, 0.1, 0}));
-        expertPolicy.setCell(0,4, new Vector(new double[] {0, 0.9, 0.1, 0}));
-        expertPolicy.setCell(0,5, new Vector(new double[] {0, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,0, new Vector(new double[] {-5, 0.9, 0.1, -5}));
+        expertPolicy.setCell(0,1, new Vector(new double[] {-5, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,2, new Vector(new double[] {-5, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,3, new Vector(new double[] {-5, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,4, new Vector(new double[] {-5, 0.9, 0.1, 0}));
+        expertPolicy.setCell(0,5, new Vector(new double[] {-5, 0.9, 0.1, -5}));
 
-        expertPolicy.setCell(1,0, new Vector(new double[] {0.1, 0.9, 0, 0}));
+        expertPolicy.setCell(1,0, new Vector(new double[] {0.1, 0.9, 0, -5}));
         expertPolicy.setCell(1,1, new Vector(new double[] {0.6, 0.4, 0, 0}));
         expertPolicy.setCell(1,2, new Vector(new double[] {0.8, 0.2, 0, 0}));
         expertPolicy.setCell(1,3, new Vector(new double[] {0.8, 0.2, 0, 0}));
         expertPolicy.setCell(1,4, new Vector(new double[] {0.4, 0.6, 0, 0}));
-        expertPolicy.setCell(1,5, new Vector(new double[] {0.9, 0.1, 0, 0}));
+        expertPolicy.setCell(1,5, new Vector(new double[] {1, -5, 0, 0}));
 
-        //ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(gridWorld, expertPolicy);
+        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(gridWorld, expertPolicy);
         Vector weights;
-        // weights = apprenticeshipLearning.solve();
+        weights = apprenticeshipLearning.solve();
 
         //gridWorld.getHeatMap(0);
         //gridWorld.getHeatMap(1);
 
         QLearning qLearning;
 
-        //TODO: Switch 1 and -1 to see heat map difference
-        weights = new Vector(new double[] {1, -1});
+        //TODO: Switch 1 and -5 to see heat map difference
+        //weights = new Vector(new double[] {1, -5});
 
         gridWorld.getRewardHeatMap(0, weights);
 

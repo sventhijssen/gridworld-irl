@@ -68,7 +68,7 @@ class ApprenticeshipLearning
         return w;
     }
 
-    private double threshold = 0.00001;
+    private double threshold = 0.001;
 
     private double discountFactor = 0.9;
 

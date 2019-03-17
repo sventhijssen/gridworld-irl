@@ -66,6 +66,8 @@ class Policy
 
         for(int i=0; i < probabilities.length; i++)
         {
+            System.out.println("P: " + probabilities[i]);
+            System.out.println("i: " + i);
             if(possibleDirections.contains(i) && probabilities[i] > maxProbability)
             {
                 maxProbability = probabilities[i];
@@ -102,7 +104,7 @@ class Policy
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        int maxSteps = 24;
+        int maxSteps = 100;
 
         while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && path.size() < maxSteps)
         {
