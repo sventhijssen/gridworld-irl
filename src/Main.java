@@ -218,39 +218,92 @@ public class Main
 //        gridWorld.setFeature(9,15, new double[] {0});
 
 
-        GridWorld gridWorld = new GridWorld(rows, columns);
+//        GridWorld gridWorld = new GridWorld(rows, columns);
+//
+//        // Row 0
+//        gridWorld.setFeature(0,0, new double[] {1.0, (double) 1/7});
+//        gridWorld.setFeature(0,1, new double[] {0.9, (double) 1/6});
+//        gridWorld.setFeature(0,2, new double[] {0.1, (double) 1/5});
+//        gridWorld.setFeature(0,3, new double[] {0.9, (double) 1/4});
+//
+//        // Row 1
+//        gridWorld.setFeature(1,0, new double[] {0.1, (double) 1/6});
+//        gridWorld.setFeature(1,1, new double[] {0.9, (double) 1/5});
+//        gridWorld.setFeature(1,2, new double[] {0.9, (double) 1/4});
+//        gridWorld.setFeature(1,3, new double[] {0.9, (double) 1/3});
+//
+//        // Row 2
+//        gridWorld.setFeature(2,0, new double[] {0.9, (double) 1/5});
+//        gridWorld.setFeature(2,1, new double[] {1.0, (double) 1/4});
+//        gridWorld.setFeature(2,2, new double[] {0.9, (double) 1/3});
+//        gridWorld.setFeature(2,3, new double[] {0.1, (double) 1/2});
+//
+//        // Row 3
+//        gridWorld.setFeature(3,0, new double[] {1.0, (double) 1/4});
+//        gridWorld.setFeature(3,1, new double[] {1.0, (double) 1/3});
+//        gridWorld.setFeature(3,2, new double[] {1.0, (double) 1/2});
+//        gridWorld.setFeature(3,3, new double[] {1.0, (double) 1/1});
+//
+//        //gridWorld.getHeatMap(0);
+//        //gridWorld.getHeatMap(1);
+//
+//        Policy expertPolicy = PolicyFactory.getRandomPolicy(gridWorld);
+//        expertPolicy.setCell(0,0, new Vector(new double[] {0, 0.9, 0.1, 0}));
+//        expertPolicy.setCell(0,1, new Vector(new double[] {0, 0.1, 0.8, 0.1}));
+//        expertPolicy.setCell(1,1, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+//        expertPolicy.setCell(2,1, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+//        expertPolicy.setCell(3,1, new Vector(new double[] {0.1, 0.8, 0, 0.1}));
+//        expertPolicy.setCell(3,2, new Vector(new double[] {0.1, 0.8, 0, 0.1}));
+
+
+//        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(gridWorld, expertPolicy);
+//        Vector weights = apprenticeshipLearning.solve();
+
+
+
+        GridWorld gridWorld = new GridWorld(rows, 6);
 
         // Row 0
-        gridWorld.setFeature(0,0, new double[] {1.0, (double) 1/7});
-        gridWorld.setFeature(0,1, new double[] {0.9, (double) 1/6});
-        gridWorld.setFeature(0,2, new double[] {0.1, (double) 1/5});
-        gridWorld.setFeature(0,3, new double[] {0.9, (double) 1/4});
+        gridWorld.setFeature(0,0, new double[] {1.0, (double) (Math.pow(1/6,2))});
+        gridWorld.setFeature(0,1, new double[] {0.1, (double) (Math.pow(1/5,2))});
+        gridWorld.setFeature(0,2, new double[] {0.05, (double) (Math.pow(1/4,2))});
+        gridWorld.setFeature(0,3, new double[] {0.05, (double) (Math.pow(1/3,2))});
+        gridWorld.setFeature(0,4, new double[] {0.1, (double) (Math.pow(1/2,2))});
+        gridWorld.setFeature(0,5, new double[] {1.0, (double) (Math.pow(1,2))});
+
 
         // Row 1
-        gridWorld.setFeature(1,0, new double[] {0.1, (double) 1/6});
-        gridWorld.setFeature(1,1, new double[] {0.9, (double) 1/5});
-        gridWorld.setFeature(1,2, new double[] {0.9, (double) 1/4});
-        gridWorld.setFeature(1,3, new double[] {0.9, (double) 1/3});
+        gridWorld.setFeature(1,0, new double[] {1.0, (double) (Math.pow(1/7,2))});
+        gridWorld.setFeature(1,1, new double[] {0.1, (double) (Math.pow(1/6,2))});
+        gridWorld.setFeature(1,2, new double[] {0.05, (double) (Math.pow(1/5,2))});
+        gridWorld.setFeature(1,3, new double[] {0.05, (double) (Math.pow(1/4,2))});
+        gridWorld.setFeature(1,4, new double[] {0.1, (double) (Math.pow(1/3,2))});
+        gridWorld.setFeature(1,5, new double[] {1.0, (double) (Math.pow(1/2,2))});
 
         // Row 2
-        gridWorld.setFeature(2,0, new double[] {0.9, (double) 1/5});
-        gridWorld.setFeature(2,1, new double[] {1.0, (double) 1/4});
-        gridWorld.setFeature(2,2, new double[] {0.9, (double) 1/3});
-        gridWorld.setFeature(2,3, new double[] {0.1, (double) 1/2});
+        gridWorld.setFeature(2,0, new double[] {1.0, (double) (Math.pow(1/8,2))});
+        gridWorld.setFeature(2,1, new double[] {1.0, (double) (Math.pow(1/7,2))});
+        gridWorld.setFeature(2,2, new double[] {1.0, (double) (Math.pow(1/6,2))});
+        gridWorld.setFeature(2,3, new double[] {1.0, (double) (Math.pow(1/5,2))});
+        gridWorld.setFeature(2,4, new double[] {1.0, (double) (Math.pow(1/4,2))});
+        gridWorld.setFeature(2,5, new double[] {1.0, (double) (Math.pow(1/3,2))});
 
         // Row 3
-        gridWorld.setFeature(3,0, new double[] {1.0, (double) 1/4});
-        gridWorld.setFeature(3,1, new double[] {1.0, (double) 1/3});
-        gridWorld.setFeature(3,2, new double[] {1.0, (double) 1/2});
-        gridWorld.setFeature(3,3, new double[] {1.0, (double) 1/1});
+        gridWorld.setFeature(3,0, new double[] {1.0, (double) (Math.pow(1/9,2))});
+        gridWorld.setFeature(3,1, new double[] {1.0, (double) (Math.pow(1/8,2))});
+        gridWorld.setFeature(3,2, new double[] {1.0, (double) (Math.pow(1/7,2))});
+        gridWorld.setFeature(3,3, new double[] {1.0, (double) (Math.pow(1/6,2))});
+        gridWorld.setFeature(3,4, new double[] {1.0, (double) (Math.pow(1/5,2))});
+        gridWorld.setFeature(3,5, new double[] {1.0, (double) (Math.pow(1/4,2))});
 
-        Vector w;
+        gridWorld.setGoalPosition(0,5);
+
         QLearning qLearning;
 
-        w = new Vector(new double[] {0, 1});
+        Vector weights = new Vector(new double[] {0.1, 10});
 
         qLearning = new QLearning(gridWorld);
-        qLearning.computeQTable( w, 1000);
+        qLearning.computeQTable(weights, 100);
         System.out.println(qLearning.toString());
         Policy policy = qLearning.getPolicy();
 
@@ -261,7 +314,7 @@ public class Main
 //        System.out.println(qLearning.toString());
 
 
-        Policy optimalPolicy = qLearning.getPolicy();
-        LinkedList<Cell> path = optimalPolicy.getPath();
+        //Policy optimalPolicy = qLearning.getPolicy();
+        //LinkedList<Cell> path = optimalPolicy.getPath();
     }
 }

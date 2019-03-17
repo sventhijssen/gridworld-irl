@@ -1,3 +1,8 @@
+import javafx.geometry.Pos;
+import org.tc33.jheatchart.HeatChart;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 
 class GridWorld
@@ -8,6 +13,8 @@ class GridWorld
     private int rows;
 
     private int columns;
+
+    private Position goalPosition;
 
     GridWorld(int rows, int columns)
     {
@@ -85,5 +92,40 @@ class GridWorld
     int getSize()
     {
         return this.getRows()*this.getColumns();
+    }
+
+    public void getHeatMap(int feature)
+    {
+        double[][] m = new double[rows][columns];
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < columns; j++)
+            {
+                m[i][j] = states[i][j].getFeatures().getData()[feature];
+            }
+        }
+
+
+
+        HeatChart map = new HeatChart(m);
+
+        try
+        {
+            System.out.println("Heat");
+            map.saveToFile(new File("heatmap_feature_"+feature+".png"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void setGoalPosition(int row, int column)
+    {
+        this.goalPosition = new Position(row, column);
+    }
+
+    public Position getGoalPosition()
+    {
+        return goalPosition;
     }
 }

@@ -112,7 +112,7 @@ class Policy
     public Vector getFeatureExpectations(double discountFactor)
     {
         LinkedList<Cell> path = getPath();
-        Vector sum = new Vector(1);
+        Vector sum = new Vector(2);// TODO: Make adaptable
         for(int i=0; i < path.size(); i++)
         {
             Cell c = path.get(i);

@@ -27,12 +27,12 @@ class QLearning
     /**
      * Variable registering alpha (the learning rate) for this Q-learning algorithm.
      */
-    private final double alpha;
+    private double[] alpha;
 
     /**
      * Variable registering epsilon (the threshold) for the greedy approach of this Q-learning algorithm.
      */
-    private double epsilon = 0.1;
+    private double epsilon = 0.8;
 
     /**
      * Constructs a new Q-learning algorithm for the given grid world.
@@ -45,7 +45,7 @@ class QLearning
     {
         this.gridWorld = gridWorld;
         this.gamma = gamma;
-        this.alpha = alpha;
+        this.alpha = new double[gridWorld.getSize()];
         this.qTable = new Double[gridWorld.getSize()][nrActions];
         for(int i = 0; i < gridWorld.getSize(); i++)
         {
@@ -62,7 +62,7 @@ class QLearning
      */
     QLearning(GridWorld gridWorld)
     {
-        this(gridWorld, 0.9, 0.01);
+        this(gridWorld, 0.1, 0.01);
     }
 
     /**
@@ -88,39 +88,54 @@ class QLearning
         System.out.println("Started computing Q-table");
 
         double rnd, R, Q;
-        Position current = new Position(0,0);
         Position next;
         int a, s;
         int c = gridWorld.getColumns();
 
         for(int i=0; i < iterations; i++)
         {
-            System.out.println();
-            System.out.println("Current: " + current);
-            rnd = Math.random();
+            System.out.println("ITERATION " + i);
+            Position current = new Position(0,0);
+            //alpha = new double[gridWorld.getSize()];
+            int k = 0;
+            while(!current.equals(gridWorld.getGoalPosition()))
+            {
+                System.out.println();
+                System.out.println("Current: " + current);
+                System.out.println("Goal: " + gridWorld.getGoalPosition());
+                rnd = Math.random();
 
-            // Select random action if rnd > epsilon, otherwise action with highest reward
-            if(rnd > epsilon - 1000/(i+1))
-                next = getRandomNeighbour(current);
-            else
-                next = getMaxNeighbour(w, current);
+                // Select random action if rnd > epsilon, otherwise action with highest reward
+                if (rnd < 0.5)
+                    next = getRandomNeighbour(current);
+                else
+                    next = getMaxNeighbour(w, current);
 
-            System.out.println("Next: " + next);
+                System.out.println("Next: " + next);
 
-            R = getReward(w, next);
-            System.out.println("R: " + R);
-            a = getAction(current, next);
-            System.out.println("a: " + a);
-            s = current.getLinearization(c);
-            System.out.println("s: "+ s);
+                R = getReward(w, next);
+                System.out.println("R: " + R);
+                a = getAction(current, next);
+                System.out.println("a: " + a);
+                s = current.getLinearization(c);
+                System.out.println("s: " + s);
 
-            Q = qTable[s][a]; // Q(s, a)
-            qTable[s][a] = Q + alpha * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
+                Q = qTable[s][a]; // Q(s, a)
+                alpha[s] += 1;
+                qTable[s][a] = Q + (1/(1+alpha[s])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
-            current = next;
+                current = next;
+                k++;
+            }
         }
 
         System.out.println("Stopped computing Q-table");
+    }
+
+    private Position getRandomInitialPosition()
+    {
+        Random r = new Random();
+        return new Position(r.nextInt(gridWorld.getRows()-1), r.nextInt(gridWorld.getColumns()-1));
     }
 
     /**
