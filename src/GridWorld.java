@@ -163,4 +163,16 @@ class GridWorld
     {
         return startPosition;
     }
+
+    public boolean isWithinBoundaries(Position position)
+    {
+        return (position.getRow() >= 0 && position.getRow() <= getRows()-1 && position.getColumn() >= 0 && position.getColumn() <= getColumns()-1);
+    }
+
+    public Position getPosition(int s)
+    {
+        int row = (int) Math.floor((double) s/getColumns());
+        int column = s % getColumns();
+        return (new Position(row, column));
+    }
 }

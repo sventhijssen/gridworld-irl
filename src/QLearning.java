@@ -39,9 +39,8 @@ class QLearning
      * The grid world determines the number of states and the number of actions in fixed to four.
      * @param gridWorld     The given grid world.
      * @param gamma         The given discount factor.
-     * @param alpha         The given learning rate.
      */
-    private QLearning(GridWorld gridWorld, double gamma, double alpha)
+    private QLearning(GridWorld gridWorld, double gamma)
     {
         this.gridWorld = gridWorld;
         this.gamma = gamma;
@@ -51,7 +50,19 @@ class QLearning
         {
             for(int j = 0; j < nrActions; j++)
             {
-                qTable[i][j] = 0.0;
+                Position position = gridWorld.getPosition(i);
+                int row = position.getRow();
+                int column = position.getColumn();
+                if(row == 0 && j == 0)
+                    qTable[i][j] = Math.random();
+                else if(row == gridWorld.getRows()-1 && j == 2)
+                    qTable[i][j] = Math.random();
+                else if(column == 0 && j == 3)
+                    qTable[i][j] = Math.random();
+                else if(column == gridWorld.getColumns()-1 && j == 1)
+                    qTable[i][j] = Math.random();
+                else
+                    qTable[i][j] = Math.random();
             }
         }
     }
@@ -62,7 +73,7 @@ class QLearning
      */
     QLearning(GridWorld gridWorld)
     {
-        this(gridWorld, 0.9, 0.1);
+        this(gridWorld, 0.9);
     }
 
     /**
@@ -87,29 +98,27 @@ class QLearning
     {
         System.out.println("Started computing Q-table");
 
-        double rnd, R, Q;
+        double R, Q;
         Position next;
         int a, s;
         int c = gridWorld.getColumns();
+
 
         for(int i=0; i < iterations; i++)
         {
             System.out.println("ITERATION " + i);
             Position current = new Position(0,0);
             //alpha = new double[gridWorld.getSize()];
-            int k = 0;
             while(!current.equals(gridWorld.getGoalPosition()))
             {
                 System.out.println();
                 System.out.println("Current: " + current);
                 System.out.println("Goal: " + gridWorld.getGoalPosition());
-                rnd = Math.random();
 
-                // Select random action if rnd > epsilon, otherwise action with highest reward
-                if (rnd < 0.6)
-                    next = getRandomNeighbour(current);
-                else
-                    next = getMaxNeighbour(w, current);
+                next = getNextPosition(ActionSelectionMechanism.SOFTMAX, w, current);
+
+                if(!gridWorld.isWithinBoundaries(next))
+                    break; //next = getNextPosition(ActionSelectionMechanism.SOFTMAX, w, current);
 
                 System.out.println("Next: " + next);
 
@@ -125,11 +134,95 @@ class QLearning
                 qTable[s][a] = Q + (1/(1+alpha[s])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
-                k++;
             }
         }
 
         System.out.println("Stopped computing Q-table");
+    }
+
+    private Position getNextPosition(ActionSelectionMechanism mechanism, Vector w, Position current)
+    {
+        double rnd = Math.random();
+        if(mechanism == ActionSelectionMechanism.GREEDY)
+        {
+            // Epsilon-greedy action selection mechanism
+            // Select random action if rnd > epsilon, otherwise action with highest reward
+            if (rnd <= 0.6)
+                return getRandomNeighbour(current);
+            else
+                return getMaxNeighbour(w, current);
+        } else {
+
+            // Linearize the position of the current state
+            int s = current.getLinearization(gridWorld.getColumns());
+
+            // Convert Q-values into probabilities
+            Double[] qValues = qTable[s];
+            double[] probabilities = softMax(qValues);
+            double[] cumProbabilities = getCumulativeProbabilities(probabilities);
+            //System.out.println("Probabilities: " + Arrays.toString(probabilities));
+            //System.out.println("Cumulative probabilities: " + Arrays.toString(cumProbabilities));
+            //System.out.println("Random: "+ rnd);
+
+            int i;
+            for(i=0; i < cumProbabilities.length; i++)
+            {
+                if(rnd <= cumProbabilities[i])
+                    break;
+            }
+
+            return getNeighbour(current, i);
+
+        }
+    }
+
+    /**
+     * Returns the cumulative distribution function.
+     * @param probabilities     The given probabilities.
+     * @return                  The cumulative probabilities (0 exclusive).
+     */
+    private double[] getCumulativeProbabilities(double[] probabilities)
+    {
+        double[] cumProbabilities = new double[probabilities.length];
+        for(int i=0; i < probabilities.length; i++)
+        {
+            if(i > 0)
+                cumProbabilities[i] = cumProbabilities[i-1];
+            cumProbabilities[i] += probabilities[i];
+        }
+        return cumProbabilities;
+    }
+
+    private Position getNeighbour(Position current, int direction)
+    {
+            if(direction == 0)
+                return new Position(current.getRow()-1, current.getColumn());
+            if(direction == 1)
+                return new Position(current.getRow(), current.getColumn()+1);
+            if(direction == 2)
+                return new Position(current.getRow()+1, current.getColumn());
+            if(direction == 3)
+                return new Position(current.getRow(), current.getColumn()-1);
+            throw new RuntimeException("Undefined direction");
+    }
+
+    private double[] softMax(Double[] qs)
+    {
+        double[] ps = new double[qs.length];
+        double temp = 0.2;
+
+        double denominator = 0;
+        for (Double q : qs)
+        {
+            denominator += Math.exp(q / temp);
+        }
+
+        for (int i=0; i < qs.length; i++)
+        {
+            ps[i] = Math.exp(qs[i]/temp) / denominator;
+        }
+
+        return ps;
     }
 
     private Position getRandomInitialPosition()

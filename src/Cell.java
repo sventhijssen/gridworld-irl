@@ -1,3 +1,5 @@
+import javafx.geometry.Pos;
+
 public class Cell
 {
     private int row;
@@ -13,6 +15,12 @@ public class Cell
         this.setColumn(column);
         this.setContents(contents);
         this.setPolicy(policy);
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.valueOf(new Position(row, column));
     }
 
     public Cell getNeighbour(int direction)

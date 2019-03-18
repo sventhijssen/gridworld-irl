@@ -1,8 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 class Policy
 {
@@ -50,6 +46,8 @@ class Policy
         throw new RuntimeException("Undefined direction");
     }
 
+
+    //TODO SOFTMAX
     private Cell getNextCell(Position current)
     {
         Cell currentCell = policy[current.getRow()][current.getColumn()];
@@ -64,14 +62,26 @@ class Policy
         double maxProbability = Double.MIN_VALUE;
         int direction = 0;
 
-        for(int i=0; i < probabilities.length; i++)
+        // Probability
+
+        double rnd = Math.random();
+
+        if (rnd < 0.2)
         {
-            System.out.println("P: " + probabilities[i]);
-            System.out.println("i: " + i);
-            if(possibleDirections.contains(i) && probabilities[i] > maxProbability)
+            Random random = new Random();
+            direction = possibleDirections.get(random.nextInt(possibleDirections.size()));
+        }
+        else
+        {
+            for(int i=0; i < probabilities.length; i++)
             {
-                maxProbability = probabilities[i];
-                direction = i;
+                System.out.println("P: " + probabilities[i]);
+                System.out.println("i: " + i);
+                if(possibleDirections.contains(i) && probabilities[i] > maxProbability)
+                {
+                    maxProbability = probabilities[i];
+                    direction = i;
+                }
             }
         }
         System.out.println(direction);
@@ -119,6 +129,8 @@ class Policy
     public Vector getFeatureExpectations(double discountFactor)
     {
         LinkedList<Cell> path = getPath();
+        System.out.println("PATH");
+        System.out.println(path);
         Vector sum = new Vector(2);// TODO: Make adaptable
         for(int i=0; i < path.size(); i++)
         {
