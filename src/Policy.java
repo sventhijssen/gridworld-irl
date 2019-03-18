@@ -33,8 +33,6 @@ class Policy
 
     private Cell getNeighbouringCell(Position current, int direction)
     {
-        System.out.println(current);
-        System.out.println(direction);
         if(direction == 0)
             return policy[current.getRow()-1][current.getColumn()];
         if(direction == 1)
@@ -54,19 +52,14 @@ class Policy
         Vector transitions = (Vector) currentCell.getContents();
         LinkedList<Integer> possibleDirections = getPossibleDirections(current.getRow(), current.getColumn());
         double[] probabilities = transitions.getData();
-        System.out.println("NEXT CELL");
-        System.out.println(current);
-        System.out.println(possibleDirections);
-        System.out.println(Arrays.toString(probabilities));
-
-        double maxProbability = Double.MIN_VALUE;
+        double maxProbability = -Double.MAX_VALUE;
         int direction = 0;
 
         // Probability
 
         double rnd = Math.random();
 
-        if (rnd < 0.2)
+        if (rnd < 0.4)
         {
             Random random = new Random();
             direction = possibleDirections.get(random.nextInt(possibleDirections.size()));
@@ -75,8 +68,6 @@ class Policy
         {
             for(int i=0; i < probabilities.length; i++)
             {
-                System.out.println("P: " + probabilities[i]);
-                System.out.println("i: " + i);
                 if(possibleDirections.contains(i) && probabilities[i] > maxProbability)
                 {
                     maxProbability = probabilities[i];

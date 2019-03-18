@@ -30,11 +30,6 @@ class QLearning
     private double[] alpha;
 
     /**
-     * Variable registering epsilon (the threshold) for the greedy approach of this Q-learning algorithm.
-     */
-    private double epsilon = 0.8;
-
-    /**
      * Constructs a new Q-learning algorithm for the given grid world.
      * The grid world determines the number of states and the number of actions in fixed to four.
      * @param gridWorld     The given grid world.
@@ -54,13 +49,13 @@ class QLearning
                 int row = position.getRow();
                 int column = position.getColumn();
                 if(row == 0 && j == 0)
-                    qTable[i][j] = Math.random();
+                    qTable[i][j] = -10.0;
                 else if(row == gridWorld.getRows()-1 && j == 2)
-                    qTable[i][j] = Math.random();
+                    qTable[i][j] = -10.0;
                 else if(column == 0 && j == 3)
-                    qTable[i][j] = Math.random();
+                    qTable[i][j] = -10.0;
                 else if(column == gridWorld.getColumns()-1 && j == 1)
-                    qTable[i][j] = Math.random();
+                    qTable[i][j] = -10.0;
                 else
                     qTable[i][j] = Math.random();
             }
@@ -108,8 +103,13 @@ class QLearning
         {
             System.out.println("ITERATION " + i);
             Position current = new Position(0,0);
-            //alpha = new double[gridWorld.getSize()];
-            while(!current.equals(gridWorld.getGoalPosition()))
+
+            alpha = new double[gridWorld.getSize()];
+
+            int k = 0;
+            int maxLength = gridWorld.getSize()*4;
+
+            while(!current.equals(gridWorld.getGoalPosition()) && k < maxLength)
             {
                 System.out.println();
                 System.out.println("Current: " + current);
@@ -134,6 +134,7 @@ class QLearning
                 qTable[s][a] = Q + (1/(1+alpha[s])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
+                k++;
             }
         }
 
@@ -209,7 +210,7 @@ class QLearning
     private double[] softMax(Double[] qs)
     {
         double[] ps = new double[qs.length];
-        double temp = 0.2;
+        double temp = 0.4;
 
         double denominator = 0;
         for (Double q : qs)
