@@ -104,7 +104,7 @@ class QLearning
             System.out.println("ITERATION " + i);
             Position current = new Position(0,0);
 
-            alpha = new double[gridWorld.getSize()];
+            //alpha = new double[gridWorld.getSize()];
 
             int k = 0;
             int maxLength = gridWorld.getSize()*4;

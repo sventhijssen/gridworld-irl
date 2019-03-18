@@ -147,7 +147,9 @@ class GridWorld
 
         try
         {
-            map.saveToFile(new File("heatmap_rewards_"+k+".png"));
+            //String workingDirectory = System.getProperty("user.dir");
+            new File("heatmaps").mkdirs();
+            map.saveToFile(new File("heatmaps/heatmap_rewards_"+k+".png"));
         } catch (IOException e)
         {
             e.printStackTrace();

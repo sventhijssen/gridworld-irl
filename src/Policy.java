@@ -59,7 +59,7 @@ class Policy
 
         double rnd = Math.random();
 
-        if (rnd < 0.4)
+        if (rnd < 0.3)
         {
             Random random = new Random();
             direction = possibleDirections.get(random.nextInt(possibleDirections.size()));
@@ -75,7 +75,6 @@ class Policy
                 }
             }
         }
-        System.out.println(direction);
         return getNeighbouringCell(current, direction);
     }
 
