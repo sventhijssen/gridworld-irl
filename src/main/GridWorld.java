@@ -1,11 +1,12 @@
-import javafx.geometry.Pos;
+package main;
+
 import org.tc33.jheatchart.HeatChart;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-class GridWorld
+public class GridWorld
 {
 
     private State[][] states;
@@ -17,7 +18,7 @@ class GridWorld
     private Position startPosition;
     private Position goalPosition;
 
-    GridWorld(int rows, int columns)
+    public GridWorld(int rows, int columns)
     {
         this.setRows(rows);
         this.setColumns(columns);
@@ -51,7 +52,7 @@ class GridWorld
         return neighbours;
     }
 
-    void setFeature(int row, int column, double[] features)
+    public void setFeature(int row, int column, double[] features)
     {
         this.states[row][column].setFeatures(features);
     }
@@ -155,6 +156,12 @@ class GridWorld
             e.printStackTrace();
         }
     }
+
+    public void setStartPosition(int row, int column)
+    {
+        this.startPosition = new Position(row, column);
+    }
+
 
     public void getStartPosition(int row, int column)
     {

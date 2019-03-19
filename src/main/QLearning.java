@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
@@ -68,7 +70,7 @@ class QLearning
      */
     QLearning(GridWorld gridWorld)
     {
-        this(gridWorld, 0.99);
+        this(gridWorld, 0.9);
     }
 
     /**
@@ -102,7 +104,7 @@ class QLearning
         for(int i=0; i < iterations; i++)
         {
             System.out.println("ITERATION " + i);
-            Position current = new Position(0,0);
+            Position current = getRandomInitialPosition();
 
             alpha = new double[gridWorld.getSize()];
 

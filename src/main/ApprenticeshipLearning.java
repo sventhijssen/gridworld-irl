@@ -1,3 +1,5 @@
+package main;
+
 class ApprenticeshipLearning
 {
     ApprenticeshipLearning(GridWorld gridWorld, Policy expertPolicy)
@@ -68,7 +70,7 @@ class ApprenticeshipLearning
         return w;
     }
 
-    private double threshold = 0.005;
+    private double threshold = 0.0001;
 
     private double discountFactor = 0.9;
 

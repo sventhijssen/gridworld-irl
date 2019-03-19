@@ -1,3 +1,5 @@
+package main;
+
 public class PolicyFactory
 {
     public static Policy getRandomPolicy(GridWorld gridWorld)

@@ -1,11 +1,13 @@
+package main;
+
 import java.util.*;
 
-class Policy
+public class Policy
 {
     private GridWorld gridWorld;
     private Cell[][] policy;
 
-    Policy(GridWorld gridWorld)
+    public Policy(GridWorld gridWorld)
     {
         this.gridWorld = gridWorld;
         this.policy =  new Cell[gridWorld.getRows()][gridWorld.getColumns()];
@@ -104,9 +106,9 @@ class Policy
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        int maxSteps = 100;
+        //int maxSteps = 100;
 
-        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && path.size() < maxSteps)
+        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()))// && path.size() < maxSteps)
         {
             next = this.getNextCell(position);
             position = new Position(next.getRow(), next.getColumn());
@@ -121,7 +123,7 @@ class Policy
         LinkedList<Cell> path = getPath();
         System.out.println("PATH");
         System.out.println(path);
-        Vector sum = new Vector(2);// TODO: Make adaptable
+        Vector sum = new Vector(1);// TODO: Make adaptable
         for(int i=0; i < path.size(); i++)
         {
             Cell c = path.get(i);
