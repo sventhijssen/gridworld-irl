@@ -19,6 +19,20 @@ Our starting point was \textit{Inverse Reinforcement Learning} by Pieter Abbeel 
 For the creative part of this assignment, we have opted to implement the algorithm suggested by Pieter Abbeel and Andrew Y. Ng  in the paper \textit{Apprenticeship Learning by Inverse Reinforcement Learning} \cite{abbeel2004apprenticeship}. The incentive to implement an algorithm for inverse reinforcement learning was to fully comprehend the concept. As the saying goes, ``practice makes perfect''. The initial suggestion for the creative part was inverse reinforcement learning applied to Tic-Tac-Toe. However, because of its stochastic environment, this would have led us too far for the assignment. Therefore we have opted to apply inverse reinforcement learning on a grid world such that the concepts can easily be visualized and explained.
 
 \subsection{Implementation}
+In the algorithm, multiple approaches are suggested to compute the weights $w$. One such approach would be to use a quadratic programming solver where the problem is defined as follows:
+
+$$\max\limits_{t, w} t$$\\
+s.t. $$w^T \mu_E \geq w^T \mu^{(j)} + t, j= 0,...,i-1$$
+$$\|w\|_2 \leq 1$$
+
+Another approach is to use a projection method in which the feature expectations of a policy are recalculated in each iteration
+
+We were unable to find a suitable library to solve this problem
+a reinforcement algorithm is used to compute a policy $\pi$.
+
+%TODO q-learning
+%TODO softmax
+%TODO loops solution
 
 \subsection{Experiments}
 
