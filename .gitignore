@@ -3,3 +3,9 @@ out/
 *.iml
 *.jar
 *.png
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
+*.synctex.gz
