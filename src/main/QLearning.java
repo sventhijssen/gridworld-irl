@@ -47,18 +47,18 @@ class QLearning
         {
             for(int j = 0; j < nrActions; j++)
             {
-                Position position = gridWorld.getPosition(i);
-                int row = position.getRow();
-                int column = position.getColumn();
-                if(row == 0 && j == 0)
-                    qTable[i][j] = -10.0;
-                else if(row == gridWorld.getRows()-1 && j == 2)
-                    qTable[i][j] = -10.0;
-                else if(column == 0 && j == 3)
-                    qTable[i][j] = -10.0;
-                else if(column == gridWorld.getColumns()-1 && j == 1)
-                    qTable[i][j] = -10.0;
-                else
+//                Position position = gridWorld.getPosition(i);
+//                int row = position.getRow();
+//                int column = position.getColumn();
+//                if(row == 0 && j == 0)
+//                    qTable[i][j] = -10.0;
+//                else if(row == gridWorld.getRows()-1 && j == 2)
+//                    qTable[i][j] = -10.0;
+//                else if(column == 0 && j == 3)
+//                    qTable[i][j] = -10.0;
+//                else if(column == gridWorld.getColumns()-1 && j == 1)
+//                    qTable[i][j] = -10.0;
+//                else
                     qTable[i][j] = Math.random();
             }
         }
@@ -150,7 +150,7 @@ class QLearning
         {
             // Epsilon-greedy action selection mechanism
             // Select random action if rnd > epsilon, otherwise action with highest reward
-            if (rnd <= 0.6)
+            if (rnd <= 0.4)
                 return getRandomNeighbour(current);
             else
                 return getMaxNeighbour(w, current);
@@ -248,7 +248,7 @@ class QLearning
         {
             row = (int) Math.floor((double) i/gridWorld.getColumns());
             column = i % gridWorld.getColumns();
-            policy.setCell(row, column, new Vector(qTable[i]));
+            policy.setCell(row, column, new Vector(softMax(qTable[i])));
         }
         System.out.println("Stopped computing optimal policy");
         return policy;
