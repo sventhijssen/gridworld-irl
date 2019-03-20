@@ -106,10 +106,11 @@ public class Policy
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        //int maxSteps = 100;
+        int maxSteps = gridWorld.getSize()*4;
 
-        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()))// && path.size() < maxSteps)
+        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && path.size() < maxSteps)
         {
+            System.out.println(new Position(next.getRow(), next.getColumn()));
             next = this.getNextCell(position);
             position = new Position(next.getRow(), next.getColumn());
             // System.out.format("(%d, %d)\n", next.getRow(), next.getColumn());
@@ -123,7 +124,7 @@ public class Policy
         LinkedList<Cell> path = getPath();
         System.out.println("PATH");
         System.out.println(path);
-        Vector sum = new Vector(1);// TODO: Make adaptable
+        Vector sum = new Vector(gridWorld.getState(0,0).getFeatures().length());
         for(int i=0; i < path.size(); i++)
         {
             Cell c = path.get(i);
