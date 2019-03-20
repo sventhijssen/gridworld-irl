@@ -1,5 +1,9 @@
 package main;
 
+import org.jfree.ui.RefineryUtilities;
+
+import java.util.LinkedList;
+
 class ApprenticeshipLearning
 {
     ApprenticeshipLearning(GridWorld gridWorld, Policy expertPolicy)
@@ -11,6 +15,8 @@ class ApprenticeshipLearning
 
     Vector solve()
     {
+        LinkedList<Vector> ws = new LinkedList<>();
+        LinkedList<Double> ts = new LinkedList<>();
         System.out.println("Solving apprenticeship learning.");
         Vector muExpert = expertPolicy.getFeatureExpectations(discountFactor);
 
@@ -42,8 +48,11 @@ class ApprenticeshipLearning
             // Step 2: Compute w_i and t_i
             System.out.printf("-STEP 2, ITERATION %d: Compute t and w\n", i);
             w = muExpert.minus(muFlat);
+            //w = w.scale((1/w.norm2()));
+            ws.add(w);
             System.out.println("w = " + w);
             t = w.norm2();
+            ts.add(t);
             System.out.printf("t = %f\n", t);
 
             System.out.printf("-STEP 3, ITERATION %d: Check t < e\n", i);
@@ -70,7 +79,20 @@ class ApprenticeshipLearning
         return w;
     }
 
-    private double threshold = 0.0001;
+//    void drawEvolutionT()
+//    {
+//
+//        LineChart_AWT chart = new LineChart_AWT(
+//                "School Vs Years" ,
+//                "Numer of Schools vs years");
+//
+//        chart.pack( );
+//        RefineryUtilities.centerFrameOnScreen( chart );
+//        chart.setVisible( true );
+//
+//    }
+
+    private double threshold = 0.001;
 
     private double discountFactor = 0.9;
 
