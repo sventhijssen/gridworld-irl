@@ -85,7 +85,7 @@ public class Example_Bicycle_Miss_Walls implements IExample
         expertPolicy.setCell(0,14, new Vector(new double[] {0, 0.5, 0.5, 0}));
         expertPolicy.setCell(0,15, new Vector(new double[] {0, 0, 1, 0}));
 
-        // Row 0
+        // Row 1
         expertPolicy.setCell(1,0, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
         expertPolicy.setCell(1,1, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
         expertPolicy.setCell(1,2, new Vector(new double[] {0.7, 0.1, 0.1, 0.1}));
