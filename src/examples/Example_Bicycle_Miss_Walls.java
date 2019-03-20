@@ -68,22 +68,22 @@ public class Example_Bicycle_Miss_Walls implements IExample
         Policy expertPolicy = PolicyFactory.getRandomPolicy(learningWorld);
 
         // Row 0
-        expertPolicy.setCell(0,0, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,1, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,2, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,3, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,4, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,5, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,6, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,7, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,8, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,9, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,10, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,11, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,12, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,13, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,14, new Vector(new double[] {0, 0.5, 0.5, 0}));
-        expertPolicy.setCell(0,15, new Vector(new double[] {0, 0, 1, 0}));
+        expertPolicy.setCell(0,0, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,1, new Vector(new double[] {0.1, 0.4, 0.4, 0.1}));
+        expertPolicy.setCell(0,2, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,3, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,4, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,5, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,6, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,7, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,8, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,9, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,10, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,11, new Vector(new double[] {0.1, 0.7, 0.1, 0.1}));
+        expertPolicy.setCell(0,12, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,13, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,14, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
+        expertPolicy.setCell(0,15, new Vector(new double[] {0.1, 0.1, 0.7, 0.1}));
 
         // Row 0
         expertPolicy.setCell(1,0, new Vector(new double[] {0, 1, 0, 0}));
