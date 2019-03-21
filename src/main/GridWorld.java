@@ -42,9 +42,9 @@ public class GridWorld
         LinkedList<Position> neighbours = new LinkedList<>();
         if(row > 0)
             neighbours.add(new Position(row-1, column+1));
+        neighbours.add(new Position(row, column+1));
         if(row < this.getRows()-1)
             neighbours.add(new Position(row+1, column+1));
-            neighbours.add(new Position(row, column+1));
         return neighbours;
     }
 
