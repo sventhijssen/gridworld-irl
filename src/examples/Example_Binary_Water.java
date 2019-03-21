@@ -60,7 +60,6 @@ public class Example_Binary_Water implements IExample
         learningWorld.setFeature(4,4,  new double[] {0, 0, 1});
 
         learningWorld.setStartPosition(0,0);
-        learningWorld.setGoalPosition(1,15);
 
         return learningWorld;
     }
@@ -293,7 +292,6 @@ public class Example_Binary_Water implements IExample
         testingWorld.setFeature(9,15, new double[] {0, 0, 0});
 
         testingWorld.setStartPosition(0,10);
-        testingWorld.setGoalPosition(5,1);
 
         return testingWorld;
     }

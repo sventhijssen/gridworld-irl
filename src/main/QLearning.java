@@ -47,18 +47,6 @@ class QLearning
         {
             for(int j = 0; j < nrActions; j++)
             {
-//                Position position = gridWorld.getPosition(i);
-//                int row = position.getRow();
-//                int column = position.getColumn();
-//                if(row == 0 && j == 0)
-//                    qTable[i][j] = -10.0;
-//                else if(row == gridWorld.getRows()-1 && j == 2)
-//                    qTable[i][j] = -10.0;
-//                else if(column == 0 && j == 3)
-//                    qTable[i][j] = -10.0;
-//                else if(column == gridWorld.getColumns()-1 && j == 1)
-//                    qTable[i][j] = -10.0;
-//                else
                     qTable[i][j] = Math.random();
             }
         }
@@ -109,13 +97,11 @@ class QLearning
             alpha = new double[gridWorld.getSize()];
 
             int k = 0;
-            int maxLength = gridWorld.getSize()*4;
 
-            while(!current.equals(gridWorld.getGoalPosition()) && k < maxLength)
+            while(k < gridWorld.getColumns())
             {
                 System.out.println();
                 System.out.println("Current: " + current);
-                System.out.println("Goal: " + gridWorld.getGoalPosition());
 
                 next = getNextPosition(ActionSelectionMechanism.SOFTMAX, w, current);
 
@@ -199,13 +185,11 @@ class QLearning
     private Position getNeighbour(Position current, int direction)
     {
             if(direction == 0)
-                return new Position(current.getRow()-1, current.getColumn());
+                return new Position(current.getRow()-1, current.getColumn()+1);
             if(direction == 1)
                 return new Position(current.getRow(), current.getColumn()+1);
             if(direction == 2)
-                return new Position(current.getRow()+1, current.getColumn());
-            if(direction == 3)
-                return new Position(current.getRow(), current.getColumn()-1);
+                return new Position(current.getRow()+1, current.getColumn()+1);
             throw new RuntimeException("Undefined direction");
     }
 
@@ -305,12 +289,10 @@ class QLearning
     {
         if(next.getRow() == current.getRow()-1)
             return 0;
-        if(next.getColumn() == current.getColumn()+1)
+        if(next.getRow() == current.getRow())
             return 1;
         if(next.getRow() == current.getRow()+1)
             return 2;
-        if(next.getColumn() == current.getColumn()-1)
-            return 3;
         throw new RuntimeException("Positions are not neighbouring. Action undefined");
     }
 

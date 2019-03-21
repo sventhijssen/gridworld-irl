@@ -58,7 +58,6 @@ public class Example_4by6 implements IExample
         learningWorld.setFeature(3,5, new double[] {0, Math.exp(-1/6)});
 
         learningWorld.getStartPosition(0,0);
-        learningWorld.setGoalPosition(0,5);
 
         return learningWorld;
     }
@@ -167,7 +166,6 @@ public class Example_4by6 implements IExample
         testingWorld.setFeature(3,5, new double[] {0, Math.exp(-1/4)});
 
         testingWorld.getStartPosition(0,0);
-        testingWorld.setGoalPosition(3,0);
 
         return testingWorld;
     }

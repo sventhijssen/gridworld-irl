@@ -59,7 +59,6 @@ public class Example_Bicycle_Miss_Walls implements IExample
         learningWorld.setFeature(1,15,  new double[] {1});
 
         learningWorld.setStartPosition(1,0);
-        learningWorld.setGoalPosition(1,15);
 
         return learningWorld;
     }
@@ -184,8 +183,115 @@ public class Example_Bicycle_Miss_Walls implements IExample
         testingWorld.setFeature(3,14, new double[] {1});
         testingWorld.setFeature(3,15, new double[] {1});
 
-        testingWorld.setStartPosition(2,0);
-        testingWorld.setGoalPosition(2,15);
+        // Row 4
+        testingWorld.setFeature(4,0, new double[] {-5});
+        testingWorld.setFeature(4,1, new double[] {-5});
+        testingWorld.setFeature(4,2, new double[] {1});
+        testingWorld.setFeature(4,3, new double[] {1});
+        testingWorld.setFeature(4,4, new double[] {-5});
+        testingWorld.setFeature(4,5, new double[] {-5});
+        testingWorld.setFeature(4,6, new double[] {-5});
+        testingWorld.setFeature(4,7, new double[] {-5});
+        testingWorld.setFeature(4,8, new double[] {-5});
+        testingWorld.setFeature(4,9, new double[] {-5});
+        testingWorld.setFeature(4,10, new double[] {-1});
+        testingWorld.setFeature(4,11, new double[] {-1});
+        testingWorld.setFeature(4,12, new double[] {-5});
+        testingWorld.setFeature(4,13, new double[] {-5});
+        testingWorld.setFeature(4,14, new double[] {-5});
+        testingWorld.setFeature(4,15, new double[] {1});
+
+        // Row 5
+        testingWorld.setFeature(5,0, new double[] {1});
+        testingWorld.setFeature(5,1, new double[] {1, 0});
+        testingWorld.setFeature(5,2, new double[] {1});
+        testingWorld.setFeature(5,3, new double[] {1});
+        testingWorld.setFeature(5,4, new double[] {1});
+        testingWorld.setFeature(5,5, new double[] {1});
+        testingWorld.setFeature(5,6, new double[] {1});
+        testingWorld.setFeature(5,7, new double[] {1});
+        testingWorld.setFeature(5,8, new double[] {-1});
+        testingWorld.setFeature(5,9, new double[] {-1});
+        testingWorld.setFeature(5,10, new double[] {-1});
+        testingWorld.setFeature(5,11, new double[] {1});
+        testingWorld.setFeature(5,12, new double[] {1});
+        testingWorld.setFeature(5,13, new double[] {1});
+        testingWorld.setFeature(5,14, new double[] {1});
+        testingWorld.setFeature(5,15, new double[] {1});
+
+        // Row 6
+        testingWorld.setFeature(6,0, new double[] {1});
+        testingWorld.setFeature(6,1, new double[] {1});
+        testingWorld.setFeature(6,2, new double[] {1});
+        testingWorld.setFeature(6,3, new double[] {1});
+        testingWorld.setFeature(6,4, new double[] {1});
+        testingWorld.setFeature(6,5, new double[] {1});
+        testingWorld.setFeature(6,6, new double[] {1});
+        testingWorld.setFeature(6,7, new double[] {1});
+        testingWorld.setFeature(6,8, new double[] {-1});
+        testingWorld.setFeature(6,9, new double[] {-1});
+        testingWorld.setFeature(6,10, new double[] {-1});
+        testingWorld.setFeature(6,11, new double[] {1});
+        testingWorld.setFeature(6,12, new double[] {1});
+        testingWorld.setFeature(6,13, new double[] {1});
+        testingWorld.setFeature(6,14, new double[] {1});
+        testingWorld.setFeature(6,15, new double[] {1});
+
+        // Row 7
+        testingWorld.setFeature(7,0, new double[] {-5});
+        testingWorld.setFeature(7,1, new double[] {-5});
+        testingWorld.setFeature(7,2, new double[] {-5});
+        testingWorld.setFeature(7,3, new double[] {-5});
+        testingWorld.setFeature(7,4, new double[] {-5});
+        testingWorld.setFeature(7,5, new double[] {-5});
+        testingWorld.setFeature(7,6, new double[] {-5});
+        testingWorld.setFeature(7,7, new double[] {-5});
+        testingWorld.setFeature(7,8, new double[] {-5});
+        testingWorld.setFeature(7,9, new double[] {-5});
+        testingWorld.setFeature(7,10, new double[] {1});
+        testingWorld.setFeature(7,11, new double[] {-5});
+        testingWorld.setFeature(7,12, new double[] {-5});
+        testingWorld.setFeature(7,13, new double[] {-5});
+        testingWorld.setFeature(7,14, new double[] {-5});
+        testingWorld.setFeature(7,15, new double[] {1});
+
+        // Row 8
+        testingWorld.setFeature(8,0, new double[] {1});
+        testingWorld.setFeature(8,1, new double[] {1});
+        testingWorld.setFeature(8,2, new double[] {1});
+        testingWorld.setFeature(8,3, new double[] {1});
+        testingWorld.setFeature(8,4, new double[] {1});
+        testingWorld.setFeature(8,5, new double[] {1});
+        testingWorld.setFeature(8,6, new double[] {1});
+        testingWorld.setFeature(8,7, new double[] {1});
+        testingWorld.setFeature(8,8, new double[] {1});
+        testingWorld.setFeature(8,9, new double[] {1});
+        testingWorld.setFeature(8,10, new double[] {1});
+        testingWorld.setFeature(8,11, new double[] {1});
+        testingWorld.setFeature(8,12, new double[] {1});
+        testingWorld.setFeature(8,13, new double[] {1});
+        testingWorld.setFeature(8,14, new double[] {1});
+        testingWorld.setFeature(8,15, new double[] {1});
+
+        // Row 9
+        testingWorld.setFeature(9,0, new double[] {-5});
+        testingWorld.setFeature(9,1, new double[] {-5});
+        testingWorld.setFeature(9,2, new double[] {-5});
+        testingWorld.setFeature(9,3, new double[] {-5});
+        testingWorld.setFeature(9,4, new double[] {-5});
+        testingWorld.setFeature(9,5, new double[] {-5});
+        testingWorld.setFeature(9,6, new double[] {-5});
+        testingWorld.setFeature(9,7, new double[] {-5});
+        testingWorld.setFeature(9,8, new double[] {-5});
+        testingWorld.setFeature(9,9, new double[] {-5});
+        testingWorld.setFeature(9,10, new double[] {-5});
+        testingWorld.setFeature(9,11, new double[] {-5});
+        testingWorld.setFeature(9,12, new double[] {-5});
+        testingWorld.setFeature(9,13, new double[] {-5});
+        testingWorld.setFeature(9,14, new double[] {-5});
+        testingWorld.setFeature(9,15, new double[] {1});
+
+        testingWorld.setStartPosition(0,10);
 
         return testingWorld;
     }
