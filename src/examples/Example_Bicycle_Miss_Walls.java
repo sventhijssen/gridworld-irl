@@ -56,7 +56,6 @@ public class Example_Bicycle_Miss_Walls implements IExample
         learningWorld.setFeature(1,15,  new double[] {1});
 
         learningWorld.setStartPosition(1,0);
-        learningWorld.setGoalPosition(1,15);
 
         return learningWorld;
     }
@@ -290,7 +289,6 @@ public class Example_Bicycle_Miss_Walls implements IExample
         testingWorld.setFeature(9,15, new double[] {1});
 
         testingWorld.setStartPosition(0,10);
-        testingWorld.setGoalPosition(5,1);
 
         return testingWorld;
     }

@@ -59,7 +59,6 @@ public class Example_Binary implements IExample
         learningWorld.setFeature(4,4,  new double[] {1, 0});
 
         learningWorld.setStartPosition(0,0);
-        learningWorld.setGoalPosition(1,15);
 
         return learningWorld;
     }
@@ -292,7 +291,6 @@ public class Example_Binary implements IExample
         testingWorld.setFeature(9,15, new double[] {1});
 
         testingWorld.setStartPosition(0,10);
-        testingWorld.setGoalPosition(5,1);
 
         return testingWorld;
     }
