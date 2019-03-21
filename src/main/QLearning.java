@@ -104,7 +104,7 @@ class QLearning
         for(int i=0; i < iterations; i++)
         {
             System.out.println("ITERATION " + i);
-            Position current = getRandomInitialPosition();
+            Position current = gridWorld.getStartPosition();
 
             alpha = new double[gridWorld.getSize()];
 
