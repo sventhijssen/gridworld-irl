@@ -183,7 +183,6 @@ public class Example_Bicycle_Miss_Walls implements IExample
         testingWorld.setFeature(3,14, new double[] {1});
         testingWorld.setFeature(3,15, new double[] {1});
 
-<<<<<<< HEAD
         // Row 4
         testingWorld.setFeature(4,0, new double[] {-5});
         testingWorld.setFeature(4,1, new double[] {-5});
