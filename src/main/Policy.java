@@ -100,7 +100,7 @@ public class Policy
         Cell next = getNextCell(position);
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
-        
+
         while(next.getColumn() != gridWorld.getColumns())
         {
             System.out.println(new Position(next.getRow(), next.getColumn()));

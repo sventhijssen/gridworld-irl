@@ -79,7 +79,7 @@ class QLearning
      * @param w             The weights for the respective features of a state in the grid world.
      * @param iterations    The maximum number of iterations to update the Q-table.
      */
-    void computeQTable(Vector w, int iterations, int maxSteps)
+    void computeQTable(Vector w, int iterations)
     {
         System.out.println("Started computing Q-table");
 
@@ -98,7 +98,7 @@ class QLearning
 
             int k = 0;
 
-            while(k < maxSteps)
+            while(k < gridWorld.getColumns())
             {
                 System.out.println();
                 System.out.println("Current: " + current);
