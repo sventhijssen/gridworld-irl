@@ -96,9 +96,7 @@ class QLearning
 
             alpha = new double[gridWorld.getSize()];
 
-            int k = 0;
-
-            while(k < gridWorld.getColumns())
+            while(current.getColumn() < gridWorld.getColumns()-2)
             {
                 System.out.println();
                 System.out.println("Current: " + current);
@@ -122,7 +120,6 @@ class QLearning
                 qTable[s][a] = Q + (1/(1+alpha[s])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
-                k++;
             }
         }
 
@@ -210,12 +207,6 @@ class QLearning
         }
 
         return ps;
-    }
-
-    private Position getRandomInitialPosition()
-    {
-        Random r = new Random();
-        return new Position(r.nextInt(gridWorld.getRows()-1), r.nextInt(gridWorld.getColumns()-1));
     }
 
     /**
