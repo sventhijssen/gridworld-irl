@@ -19,7 +19,7 @@ class QLearning
     /**
      * Variable registering the number of actions that can be taken in a two-dimensional grid world.
      */
-    private final static int nrActions = 4;
+    private final static int nrActions = 3;
 
     /**
      * Variable registering gamma (the discount factor) for this Q-learning algorithm.

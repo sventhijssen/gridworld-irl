@@ -101,7 +101,7 @@ public class Policy
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        while(next.getColumn() != gridWorld.getColumns())
+        while(next.getColumn() != gridWorld.getColumns()-1)
         {
             System.out.println(new Position(next.getRow(), next.getColumn()));
             next = this.getNextCell(position);
