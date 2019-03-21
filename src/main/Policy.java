@@ -61,7 +61,7 @@ public class Policy
 
         double rnd = Math.random();
 
-        if (rnd < 0.3)
+        if (rnd < 0.1)
         {
             Random random = new Random();
             direction = possibleDirections.get(random.nextInt(possibleDirections.size()));
