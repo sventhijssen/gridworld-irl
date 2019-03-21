@@ -156,10 +156,10 @@ public class Example_Bicycle_Miss_Walls implements IExample
         testingWorld.setFeature(2,5, new double[] {0});
         testingWorld.setFeature(2,6, new double[] {0});
         testingWorld.setFeature(2,7, new double[] {1});
-        testingWorld.setFeature(2,8, new double[] {0});
-        testingWorld.setFeature(2,9, new double[] {0});
-        testingWorld.setFeature(2,10, new double[] {1});
-        testingWorld.setFeature(2,11, new double[] {1});
+        testingWorld.setFeature(2,8, new double[] {1});
+        testingWorld.setFeature(2,9, new double[] {1});
+        testingWorld.setFeature(2,10, new double[] {0});
+        testingWorld.setFeature(2,11, new double[] {0});
         testingWorld.setFeature(2,12, new double[] {1});
         testingWorld.setFeature(2,13, new double[] {1});
         testingWorld.setFeature(2,14, new double[] {1});
@@ -168,9 +168,9 @@ public class Example_Bicycle_Miss_Walls implements IExample
         // Row 3
         testingWorld.setFeature(3,0, new double[] {1});
         testingWorld.setFeature(3,1, new double[] {1});
-        testingWorld.setFeature(3,2, new double[] {1});
+        testingWorld.setFeature(3,2, new double[] {0});
         testingWorld.setFeature(3,3, new double[] {0});
-        testingWorld.setFeature(3,4, new double[] {0});
+        testingWorld.setFeature(3,4, new double[] {1});
         testingWorld.setFeature(3,5, new double[] {1});
         testingWorld.setFeature(3,6, new double[] {1});
         testingWorld.setFeature(3,7, new double[] {1});
