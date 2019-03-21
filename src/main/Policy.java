@@ -36,13 +36,11 @@ public class Policy
     private Cell getNeighbouringCell(Position current, int direction)
     {
         if(direction == 0)
-            return policy[current.getRow()-1][current.getColumn()];
+            return policy[current.getRow()-1][current.getColumn()+1];
         if(direction == 1)
             return policy[current.getRow()][current.getColumn()+1];
         if(direction == 2)
-            return policy[current.getRow()+1][current.getColumn()];
-        if(direction == 3)
-            return policy[current.getRow()][current.getColumn()-1];
+            return policy[current.getRow()+1][current.getColumn()+1];
         throw new RuntimeException("Undefined direction");
     }
 
@@ -86,12 +84,9 @@ public class Policy
         LinkedList<Integer> neighbours = new LinkedList<>();
         if(row > 0)
             neighbours.add(0); // up
-        if(column < gridWorld.getColumns()-1)
-            neighbours.add(1); // right
+        neighbours.add(1); // right
         if(row < gridWorld.getRows()-1)
             neighbours.add(2); // down
-        if(column > 0)
-            neighbours.add(3); // left
         return neighbours;
     }
 
@@ -105,10 +100,8 @@ public class Policy
         Cell next = getNextCell(position);
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
-
-        int maxSteps = gridWorld.getSize()*4;
-
-        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && path.size() < maxSteps)
+        
+        while(next.getColumn() != gridWorld.getColumns())
         {
             System.out.println(new Position(next.getRow(), next.getColumn()));
             next = this.getNextCell(position);
