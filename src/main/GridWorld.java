@@ -16,7 +16,6 @@ public class GridWorld
     private int columns;
 
     private Position startPosition;
-    private Position goalPosition;
 
     public GridWorld(int rows, int columns)
     {
@@ -42,12 +41,9 @@ public class GridWorld
     {
         LinkedList<Position> neighbours = new LinkedList<>();
         if(row > 0)
-            neighbours.add(new Position(row-1, column));
+            neighbours.add(new Position(row-1, column+1));
         if(row < this.getRows()-1)
-            neighbours.add(new Position(row+1, column));
-        if(column > 0)
-            neighbours.add(new Position(row, column-1));
-        if(column < this.getColumns()-1)
+            neighbours.add(new Position(row+1, column+1));
             neighbours.add(new Position(row, column+1));
         return neighbours;
     }
@@ -119,16 +115,6 @@ public class GridWorld
         {
             e.printStackTrace();
         }
-    }
-
-    public void setGoalPosition(int row, int column)
-    {
-        this.goalPosition = new Position(row, column);
-    }
-
-    public Position getGoalPosition()
-    {
-        return goalPosition;
     }
 
     public void getRewardHeatMap(int k, Vector weights)

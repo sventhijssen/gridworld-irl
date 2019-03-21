@@ -23,24 +23,6 @@ public class Cell
         return String.valueOf(new Position(row, column));
     }
 
-    public Cell getNeighbour(int direction)
-    {
-
-        switch (direction)
-        {
-            case 0:
-                return this.getPolicy().getCell(row-1, column);
-            case 1:
-                return this.getPolicy().getCell(row, column+1);
-            case 2:
-                return this.getPolicy().getCell(row+1, column);
-            case 3:
-                return this.getPolicy().getCell(row, column-1);
-            default:
-                throw new IllegalArgumentException("Invalid direction");
-        }
-    }
-
     public int getRow()
     {
         return row;
