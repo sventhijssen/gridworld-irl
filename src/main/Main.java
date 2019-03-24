@@ -31,6 +31,7 @@ public class Main
         ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(bicycleExample.getWorld(), muExpert);
         Vector w = apprenticeshipLearning.solve();
         apprenticeshipLearning.drawEvolutionT();
+        apprenticeshipLearning.drawEvolutionW();
         System.out.println(w);
 
         GridWorld world = bicycleExample.getWorld();

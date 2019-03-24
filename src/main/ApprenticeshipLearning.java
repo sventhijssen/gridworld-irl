@@ -16,6 +16,7 @@ class ApprenticeshipLearning
     private Vector muExpert;
 
     private ArrayList<Double> ts = new ArrayList<>();
+    private ArrayList<Vector> ws = new ArrayList<>();
 
     ApprenticeshipLearning(GridWorld gridWorld, Vector muExpert)
     {
@@ -57,6 +58,7 @@ class ApprenticeshipLearning
             // Step 2: Compute w_i and t_i
             System.out.printf("-STEP 2, ITERATION %d: Compute t and w\n", i);
             w = muExpert.minus(muFlat);
+            ws.add(w);
             System.out.println("w = " + w);
             t = w.norm2();
             ts.add(t);
@@ -90,6 +92,22 @@ class ApprenticeshipLearning
     {
         LineChart lineChart = new LineChart(640, 480);
         lineChart.setData(ts);
-        lineChart.draw();
+        lineChart.draw(
+                "t.jpeg" ,
+                "Error between expert feature expectation and learned feature expectation" ,
+                "iteration",
+                "t");
+    }
+
+    void drawEvolutionW() throws IOException
+    {
+        LineChart lineChart = new LineChart(640, 480);
+        lineChart.setVectorData(ws);
+        lineChart.draw(
+                "w.jpeg",
+                "Learned feature weights",
+                "iteration",
+                "w"
+                );
     }
 }

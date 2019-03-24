@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class GridWorld
 {
@@ -201,5 +202,15 @@ public class GridWorld
             mu = mu.plus(this.getState(trajectory.get(t)).getFeatures().scale(Math.pow(discountFactor, t)));
         }
         return mu;
+    }
+
+    public Position getRandomInitialPosition()
+    {
+        Random random;
+        random = new Random();
+        int row = random.nextInt(getRows());
+        random = new Random();
+        int column = random.nextInt(getColumns());
+        return new Position(row, column);
     }
 }

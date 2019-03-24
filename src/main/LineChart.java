@@ -27,16 +27,16 @@ public class LineChart
         this.height = height;
     }
 
-    void draw() throws IOException
+    void draw(String name, String title, String xLabel, String yLabel) throws IOException
     {
         JFreeChart xyLineChart = ChartFactory.createXYLineChart(
-                "Error between expert feature expectation and learned feature expectation" ,
-                "iteration" ,
-                "t" ,
+                title,
+                xLabel,
+                yLabel ,
                 getData(),
                 PlotOrientation.VERTICAL,
                 true , true , false);
-        File XYChart = new File("XYLineChart.jpeg" );
+        File XYChart = new File(name);
         ChartUtilities.saveChartAsJPEG( XYChart, xyLineChart, width, height);
     }
 
@@ -56,5 +56,26 @@ public class LineChart
             tSeries.add(i, tValues.get(i));
         dataset = new XYSeriesCollection();
         dataset.addSeries(tSeries);
+    }
+
+    void setVectorData(ArrayList<Vector> wVectors)
+    {
+        dataset = new XYSeriesCollection();
+        // For each feature
+        for(int l=0; l < wVectors.get(0).length(); l++)
+        {
+            // Make an array list
+            ArrayList<Double> wValues = new ArrayList<>();
+            for(Vector wVector: wVectors)
+                wValues.add(wVector.getData()[l]);
+
+            // Create a new XY series
+            XYSeries wSeries = new XYSeries("w_" + l);
+
+            // Each
+            for(int i=0; i < wValues.size(); i++)
+                wSeries.add(i, wValues.get(i));
+            dataset.addSeries(wSeries);
+        }
     }
 }

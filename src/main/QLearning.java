@@ -43,11 +43,12 @@ class QLearning
         this.gamma = gamma;
         this.alpha = new double[gridWorld.getSize()][nrActions];
         this.qTable = new Double[gridWorld.getSize()][nrActions];
+        Random rnd = new Random();
         for(int i = 0; i < gridWorld.getSize(); i++)
         {
             for(int j = 0; j < nrActions; j++)
             {
-                    qTable[i][j] = Math.random();
+                    qTable[i][j] = (double) rnd.nextInt(10)+1;
             }
         }
     }
@@ -92,7 +93,7 @@ class QLearning
         for(int i=0; i < iterations; i++)
         {
             //System.out.println("ITERATION " + i);
-            Position current = gridWorld.getStartPosition();
+            Position current = gridWorld.getRandomInitialPosition(); //gridWorld.getStartPosition();
 
             alpha = new double[gridWorld.getSize()][nrActions];
             int maxLength = gridWorld.getSize()*nrActions;
@@ -118,7 +119,7 @@ class QLearning
 
                 Q = qTable[s][a]; // Q(s, a)
                 alpha[s][a] += 1;
-                qTable[s][a] = Q + (1/(1+alpha[s][a])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
+                qTable[s][a] = R + 0.9 *  getMaxQ(next); //Q + 1/iterations * R; // m + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
                 k++;
