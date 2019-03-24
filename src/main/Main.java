@@ -1,13 +1,14 @@
 package main;
 
 import examples.BicycleExample;
-import java.util.ArrayList;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main
 {
-    public static void main(String [ ] args)
+    public static void main(String [ ] args) throws IOException
     {
 
         BicycleExample bicycleExample = new BicycleExample();
@@ -22,11 +23,14 @@ public class Main
         }
 
         Vector muExpert = bicycleExample.getFeatureExpectations();
+        System.out.println("Feature expectations: ");
+        System.out.println(muExpert);
 
         //Vector muExpert = new Vector(new double[] {7.7123207545039, 0.0, 0.0, 0.9087641100000001});
 
         ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(bicycleExample.getWorld(), muExpert);
         Vector w = apprenticeshipLearning.solve();
+        apprenticeshipLearning.drawEvolutionT();
         System.out.println(w);
 
         GridWorld world = bicycleExample.getWorld();

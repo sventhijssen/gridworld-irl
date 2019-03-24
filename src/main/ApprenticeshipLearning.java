@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 class ApprenticeshipLearning
@@ -13,6 +15,8 @@ class ApprenticeshipLearning
 
     private Vector muExpert;
 
+    private ArrayList<Double> ts = new ArrayList<>();
+
     ApprenticeshipLearning(GridWorld gridWorld, Vector muExpert)
     {
         System.out.println("Initializing apprenticeship learning.");
@@ -22,8 +26,6 @@ class ApprenticeshipLearning
 
     Vector solve()
     {
-        LinkedList<Vector> ws = new LinkedList<>();
-        LinkedList<Double> ts = new LinkedList<>();
         System.out.println("Solving apprenticeship learning.");
         // Vector muExpert = expertPolicy.getFeatureExpectations(discountFactor);
 
@@ -55,8 +57,6 @@ class ApprenticeshipLearning
             // Step 2: Compute w_i and t_i
             System.out.printf("-STEP 2, ITERATION %d: Compute t and w\n", i);
             w = muExpert.minus(muFlat);
-            //w = w.scale((1/w.norm2()));
-            ws.add(w);
             System.out.println("w = " + w);
             t = w.norm2();
             ts.add(t);
@@ -86,16 +86,10 @@ class ApprenticeshipLearning
         return w;
     }
 
-//    void drawEvolutionT()
-//    {
-//
-//        LineChart_AWT chart = new LineChart_AWT(
-//                "School Vs Years" ,
-//                "Numer of Schools vs years");
-//
-//        chart.pack( );
-//        RefineryUtilities.centerFrameOnScreen( chart );
-//        chart.setVisible( true );
-//
-//    }
+    void drawEvolutionT() throws IOException
+    {
+        LineChart lineChart = new LineChart(640, 480);
+        lineChart.setData(ts);
+        lineChart.draw();
+    }
 }
