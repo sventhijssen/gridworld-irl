@@ -4,6 +4,7 @@ import org.tc33.jheatchart.HeatChart;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GridWorld
@@ -16,6 +17,8 @@ public class GridWorld
     private int columns;
 
     private Position startPosition;
+
+    private Position goalPosition;
 
     public GridWorld(int rows, int columns)
     {
@@ -41,10 +44,13 @@ public class GridWorld
     {
         LinkedList<Position> neighbours = new LinkedList<>();
         if(row > 0)
-            neighbours.add(new Position(row-1, column+1));
-        neighbours.add(new Position(row, column+1));
+            neighbours.add(new Position(row-1, column));
+        if(column < this.getColumns()-1)
+            neighbours.add(new Position(row, column+1));
         if(row < this.getRows()-1)
-            neighbours.add(new Position(row+1, column+1));
+            neighbours.add(new Position(row+1, column));
+        if(column > 0)
+            neighbours.add(new Position(row, column-1));
         return neighbours;
     }
 
@@ -169,5 +175,31 @@ public class GridWorld
         int row = (int) Math.floor((double) s/getColumns());
         int column = s % getColumns();
         return (new Position(row, column));
+    }
+
+    public Position getGoalPosition()
+    {
+        return goalPosition;
+    }
+
+    public void setGoalPosition(int row, int column)
+    {
+        this.goalPosition = new Position(row, column);
+    }
+
+    public void setGoalPosition(Position goalPosition)
+    {
+        this.goalPosition = goalPosition;
+    }
+
+    public Vector getFeatureExpectations(ArrayList<Position> trajectory)
+    {
+        Vector mu = new Vector(4);
+        double discountFactor = 0.9;
+        for(int t=0; t < trajectory.size(); t++)
+        {
+            mu = mu.plus(this.getState(trajectory.get(t)).getFeatures().scale(Math.pow(discountFactor, t)));
+        }
+        return mu;
     }
 }

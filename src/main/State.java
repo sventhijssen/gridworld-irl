@@ -1,6 +1,6 @@
 package main;
 
-class State
+public class State
 {
 
     private Vector features;
@@ -10,12 +10,12 @@ class State
         this(new double[] {1});
     }
 
-    private State(double[] features)
+    public State(double[] features)
     {
         this.setFeatures(features);
     }
 
-    Vector getFeatures()
+    public Vector getFeatures()
     {
         return features;
     }

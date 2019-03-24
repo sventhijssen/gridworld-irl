@@ -1,16 +1,23 @@
 package main;
 
-import org.jfree.ui.RefineryUtilities;
-
 import java.util.LinkedList;
 
 class ApprenticeshipLearning
 {
-    ApprenticeshipLearning(GridWorld gridWorld, Policy expertPolicy)
+
+    private double threshold = 0.001;
+
+    private double discountFactor = 0.9;
+
+    private GridWorld gridWorld;
+
+    private Vector muExpert;
+
+    ApprenticeshipLearning(GridWorld gridWorld, Vector muExpert)
     {
         System.out.println("Initializing apprenticeship learning.");
         this.gridWorld = gridWorld;
-        this.expertPolicy = expertPolicy;
+        this.muExpert = muExpert;
     }
 
     Vector solve()
@@ -18,7 +25,7 @@ class ApprenticeshipLearning
         LinkedList<Vector> ws = new LinkedList<>();
         LinkedList<Double> ts = new LinkedList<>();
         System.out.println("Solving apprenticeship learning.");
-        Vector muExpert = expertPolicy.getFeatureExpectations(discountFactor);
+        // Vector muExpert = expertPolicy.getFeatureExpectations(discountFactor);
 
         System.out.printf("-STEP 1, ITERATION %d: Compute feature expectation mu(%d)\n", 0, 0);
         Policy currentPolicy = PolicyFactory.getRandomPolicy(gridWorld); // π(0)
@@ -91,12 +98,4 @@ class ApprenticeshipLearning
 //        chart.setVisible( true );
 //
 //    }
-
-    private double threshold = 0.001;
-
-    private double discountFactor = 0.9;
-
-    private GridWorld gridWorld;
-
-    private Policy expertPolicy;
 }

@@ -36,11 +36,13 @@ public class Policy
     private Cell getNeighbouringCell(Position current, int direction)
     {
         if(direction == 0)
-            return policy[current.getRow()-1][current.getColumn()+1];
+            return policy[current.getRow()-1][current.getColumn()];
         if(direction == 1)
             return policy[current.getRow()][current.getColumn()+1];
         if(direction == 2)
-            return policy[current.getRow()+1][current.getColumn()+1];
+            return policy[current.getRow()+1][current.getColumn()];
+        if(direction == 3)
+            return policy[current.getRow()][current.getColumn()-1];
         throw new RuntimeException("Undefined direction");
     }
 
@@ -59,7 +61,7 @@ public class Policy
 
         double rnd = Math.random();
 
-        if (rnd < 0.1)
+        if (rnd < 0.3)
         {
             Random random = new Random();
             direction = possibleDirections.get(random.nextInt(possibleDirections.size()));
@@ -84,9 +86,12 @@ public class Policy
         LinkedList<Integer> neighbours = new LinkedList<>();
         if(row > 0)
             neighbours.add(0); // up
-        neighbours.add(1); // right
+        if(column < gridWorld.getColumns()-1)
+            neighbours.add(1); // right
         if(row < gridWorld.getRows()-1)
             neighbours.add(2); // down
+        if(column > 0)
+            neighbours.add(3); // left
         return neighbours;
     }
 
@@ -101,13 +106,16 @@ public class Policy
         position = new Position(next.getRow(), next.getColumn());
         path.add(next);
 
-        while(next.getColumn() != gridWorld.getColumns()-1)
+        int maxLength = gridWorld.getSize()*4;
+        int k=0;
+        while(!(next.getRow() == gridWorld.getGoalPosition().getRow() && next.getColumn() == gridWorld.getGoalPosition().getColumn()) && k < maxLength)
         {
-            System.out.println(new Position(next.getRow(), next.getColumn()));
+            //System.out.println(new Position(next.getRow(), next.getColumn()));
             next = this.getNextCell(position);
             position = new Position(next.getRow(), next.getColumn());
             // System.out.format("(%d, %d)\n", next.getRow(), next.getColumn());
             path.add(next);
+            k++;
         }
         return path;
     }

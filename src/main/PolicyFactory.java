@@ -9,7 +9,7 @@ public class PolicyFactory
         {
             for (int j = 0; j < gridWorld.getColumns(); j++)
             {
-                randomPolicy.setCell(i, j, new Vector(DistributionFactory.getProbabilityDistribution(3)));
+                randomPolicy.setCell(i, j, new Vector(DistributionFactory.getProbabilityDistribution(4)));
             }
         }
         return randomPolicy;

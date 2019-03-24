@@ -19,7 +19,7 @@ class QLearning
     /**
      * Variable registering the number of actions that can be taken in a two-dimensional grid world.
      */
-    private final static int nrActions = 3;
+    private final static int nrActions = 4;
 
     /**
      * Variable registering gamma (the discount factor) for this Q-learning algorithm.
@@ -29,7 +29,7 @@ class QLearning
     /**
      * Variable registering alpha (the learning rate) for this Q-learning algorithm.
      */
-    private double[] alpha;
+    private double[][] alpha;
 
     /**
      * Constructs a new Q-learning algorithm for the given grid world.
@@ -41,7 +41,7 @@ class QLearning
     {
         this.gridWorld = gridWorld;
         this.gamma = gamma;
-        this.alpha = new double[gridWorld.getSize()];
+        this.alpha = new double[gridWorld.getSize()][nrActions];
         this.qTable = new Double[gridWorld.getSize()][nrActions];
         for(int i = 0; i < gridWorld.getSize(); i++)
         {
@@ -58,7 +58,7 @@ class QLearning
      */
     QLearning(GridWorld gridWorld)
     {
-        this(gridWorld, 0.9);
+        this(gridWorld, 0.99);
     }
 
     /**
@@ -91,35 +91,37 @@ class QLearning
 
         for(int i=0; i < iterations; i++)
         {
-            System.out.println("ITERATION " + i);
+            //System.out.println("ITERATION " + i);
             Position current = gridWorld.getStartPosition();
 
-            alpha = new double[gridWorld.getSize()];
-
-            while(current.getColumn() < gridWorld.getColumns()-2)
+            alpha = new double[gridWorld.getSize()][nrActions];
+            int maxLength = gridWorld.getSize()*nrActions;
+            int k = 0;
+            while(k < maxLength)
             {
-                System.out.println();
-                System.out.println("Current: " + current);
+                //System.out.println();
+                //System.out.println("Current: " + current);
 
                 next = getNextPosition(ActionSelectionMechanism.SOFTMAX, w, current);
 
                 if(!gridWorld.isWithinBoundaries(next))
                     break; //next = getNextPosition(ActionSelectionMechanism.SOFTMAX, w, current);
 
-                System.out.println("Next: " + next);
+                //System.out.println("Next: " + next);
 
                 R = getReward(w, next);
-                System.out.println("R: " + R);
+                //System.out.println("R: " + R);
                 a = getAction(current, next);
-                System.out.println("a: " + a);
+                //System.out.println("a: " + a);
                 s = current.getLinearization(c);
-                System.out.println("s: " + s);
+                //System.out.println("s: " + s);
 
                 Q = qTable[s][a]; // Q(s, a)
-                alpha[s] += 1;
-                qTable[s][a] = Q + (1/(1+alpha[s])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
+                alpha[s][a] += 1;
+                qTable[s][a] = Q + (1/(1+alpha[s][a])) * (R + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
+                k++;
             }
         }
 
@@ -181,19 +183,21 @@ class QLearning
 
     private Position getNeighbour(Position current, int direction)
     {
-            if(direction == 0)
-                return new Position(current.getRow()-1, current.getColumn()+1);
-            if(direction == 1)
-                return new Position(current.getRow(), current.getColumn()+1);
-            if(direction == 2)
-                return new Position(current.getRow()+1, current.getColumn()+1);
-            throw new RuntimeException("Undefined direction");
+        if(direction == 0)
+            return new Position(current.getRow()-1, current.getColumn());
+        if(direction == 1)
+            return new Position(current.getRow(), current.getColumn()+1);
+        if(direction == 2)
+            return new Position(current.getRow()-1, current.getColumn());
+        if(direction == 3)
+            return new Position(current.getRow(), current.getColumn()-1);
+        throw new RuntimeException("Undefined direction");
     }
 
     private double[] softMax(Double[] qs)
     {
         double[] ps = new double[qs.length];
-        double temp = 0.4;
+        double temp = 0.2;
 
         double denominator = 0;
         for (Double q : qs)
@@ -280,10 +284,12 @@ class QLearning
     {
         if(next.getRow() == current.getRow()-1)
             return 0;
-        if(next.getRow() == current.getRow())
+        if(next.getColumn() == current.getColumn()+1)
             return 1;
         if(next.getRow() == current.getRow()+1)
             return 2;
+        if(next.getColumn() == current.getColumn()-1)
+            return 3;
         throw new RuntimeException("Positions are not neighbouring. Action undefined");
     }
 
@@ -326,9 +332,12 @@ class QLearning
     public String toString()
     {
         StringBuilder out = new StringBuilder();
+        int row, column;
         for(int i=0; i < qTable.length; i++)
         {
-            out.append("State ").append(i).append(": ").append(Arrays.toString(qTable[i])).append("\n");
+            row = (int) Math.floor((double) i/gridWorld.getColumns());
+            column = i % gridWorld.getColumns();
+            out.append("State ").append(new Position(row, column)).append(": ").append(Arrays.toString(qTable[i])).append("\n");
         }
         return out.toString();
     }

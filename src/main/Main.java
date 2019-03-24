@@ -1,34 +1,44 @@
 package main;
 
-import examples.Example_Bicycle_Hit_Walls;
-import examples.Example_Bicycle_Miss_Walls;
-import examples.IExample;
+import examples.BicycleExample;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Main
 {
     public static void main(String [ ] args)
     {
 
-        // Load the data from the example
-        IExample example = new Example_Bicycle_Miss_Walls();
-        GridWorld learningWorld = example.getLearningWorld();
-        GridWorld testingWorld = example.getTestingWorld();
-        Policy expertPolicy = example.getExpertPolicy();
+        BicycleExample bicycleExample = new BicycleExample();
+        while(!bicycleExample.hasReachedGoal())
+        {
+            System.out.println(bicycleExample);
+            System.out.println(bicycleExample.getPosition());
+            Scanner scanner = new Scanner(System.in);
+            char c = scanner.next().charAt(0);
+            bicycleExample.setNextPosition(c);
+            System.out.println();
+        }
 
-        // Apply apprenticeship learning
-        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(learningWorld, expertPolicy);
-        Vector weights = apprenticeshipLearning.solve();
+        Vector muExpert = bicycleExample.getFeatureExpectations();
 
-        // Create heat map of rewards with final weights
-        testingWorld.getRewardHeatMap(0, weights);
+        //Vector muExpert = new Vector(new double[] {7.7123207545039, 0.0, 0.0, 0.9087641100000001});
 
-        // Apply Q-learning to example to find path
-        QLearning qLearning = new QLearning(testingWorld);
-        qLearning.computeQTable(weights, 100);
+        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(bicycleExample.getWorld(), muExpert);
+        Vector w = apprenticeshipLearning.solve();
+        System.out.println(w);
+
+        GridWorld world = bicycleExample.getWorld();
+        world.setStartPosition(8,7);
+
+        QLearning qLearning = new QLearning(bicycleExample.getWorld());
+        qLearning.computeQTable(w, 100);
+        world.getRewardHeatMap(0, w);
         Policy policy = qLearning.getPolicy();
         System.out.println(qLearning.toString());
-        System.out.println(weights);
-        for(Cell cell: policy.getPath())
-            System.out.println(new Position(cell.getRow(), cell.getColumn()));
+        LinkedList<Cell> path = policy.getPath();
+        for(Cell c: path)
+            System.out.println(new Position(c.getRow(), c.getColumn()));
     }
 }
