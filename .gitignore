@@ -2,7 +2,7 @@ out/
 .idea/
 *.iml
 *.jar
-*.png
+heatmaps/*.png
 *.aux
 *.bbl
 *.blg
