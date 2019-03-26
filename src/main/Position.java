@@ -2,32 +2,43 @@ package main;
 
 public class Position
 {
-    private int row;
-    private int column;
+    /**
+     * Variable registering the row of this position.
+     */
+    private final int row;
+
+    /**
+     * variable registering the column of this position.
+     */
+    private final int column;
+
+    /**
+     * Creates a new position for the given row and column.
+     * @param row           The given row.
+     * @param column        The given column.
+     */
     public Position(int row, int column)
     {
-        this.setRow(row);
-        this.setColumn(column);
-    }
-
-    public int getColumn()
-    {
-        return column;
-    }
-
-    public void setColumn(int column)
-    {
+        this.row = row;
         this.column = column;
     }
 
+    /**
+     * Returns the row of this position.
+     * @return      The row.
+     */
     public int getRow()
     {
         return row;
     }
 
-    public void setRow(int row)
+    /**
+     * Returns the column of this position.
+     * @return      The column.
+     */
+    public int getColumn()
     {
-        this.row = row;
+        return column;
     }
 
     /**

@@ -5,10 +5,10 @@ public class Cell
     private int row;
     private int column;
     private GridWorld gridWorld;
-    private Policy policy;
+    private GridWorldPolicy policy;
     private Object contents;
 
-    public Cell(int row, int column, GridWorld gridWorld, Policy policy, Object contents)
+    public Cell(int row, int column, GridWorld gridWorld, GridWorldPolicy policy, Object contents)
     {
         this.setGridWorld(gridWorld);
         this.setRow(row);
@@ -37,7 +37,7 @@ public class Cell
 
     private boolean isValidRow(int row)
     {
-        return (row >= 0 && row < this.getGridWorld().getRows());
+        return (row >= 0 && row < this.getGridWorld().getNumberOfRows());
     }
 
     public int getColumn()
@@ -59,7 +59,7 @@ public class Cell
 
     private boolean isValidColumn(int column)
     {
-        return (column >= 0 && column < this.getGridWorld().getColumns());
+        return (column >= 0 && column < this.getGridWorld().getNumberOfColumns());
     }
 
     public void setGridWorld(GridWorld gridWorld)
@@ -79,12 +79,12 @@ public class Cell
         this.contents = contents;
     }
 
-    public Policy getPolicy()
+    public GridWorldPolicy getPolicy()
     {
         return policy;
     }
 
-    public void setPolicy(Policy policy)
+    public void setPolicy(GridWorldPolicy policy)
     {
         this.policy = policy;
     }

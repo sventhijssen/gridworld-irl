@@ -1,49 +1,37 @@
 package main;
 
-import examples.BicycleExample;
+import environments.CarEnvironment;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class Main
 {
-    public static void main(String [ ] args) throws IOException
+    public static void main(String [ ] args) throws Exception
     {
+        // Create an environment and learn a (nearly) optimal demonstration
+        CarEnvironment environment = new CarEnvironment();
+        ArrayList<Position> trajectory = environment.learn();
 
-        BicycleExample bicycleExample = new BicycleExample();
-        while(!bicycleExample.hasReachedGoal())
-        {
-            System.out.println(bicycleExample);
-            System.out.println(bicycleExample.getPosition());
-            Scanner scanner = new Scanner(System.in);
-            char c = scanner.next().charAt(0);
-            bicycleExample.setNextPosition(c);
-            System.out.println();
-        }
-
-        Vector muExpert = bicycleExample.getFeatureExpectations();
-        System.out.println("Feature expectations: ");
-        System.out.println(muExpert);
-
-        //Vector muExpert = new Vector(new double[] {7.7123207545039, 0.0, 0.0, 0.9087641100000001});
-
-        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(bicycleExample.getWorld(), muExpert);
+        // Given the environment and the (nearly) optimal demonstration
+        ApprenticeshipLearning apprenticeshipLearning = new ApprenticeshipLearning(environment.getGridWorld(), trajectory);
         Vector w = apprenticeshipLearning.solve();
+
+        // Draw the evolution of t and w
         apprenticeshipLearning.drawEvolutionT();
         apprenticeshipLearning.drawEvolutionW();
-        System.out.println(w);
+        System.out.println("w: " + w);
 
-        GridWorld world = bicycleExample.getWorld();
-        world.setStartPosition(8,7);
-
-        QLearning qLearning = new QLearning(bicycleExample.getWorld());
-        qLearning.computeQTable(w, 100);
-        world.getRewardHeatMap(0, w);
-        Policy policy = qLearning.getPolicy();
-        System.out.println(qLearning.toString());
-        LinkedList<Cell> path = policy.getPath();
-        for(Cell c: path)
-            System.out.println(new Position(c.getRow(), c.getColumn()));
+//        GridWorld world = bicycleExample.getWorld();
+//        world.setStartPosition(8,7);
+//
+//        QLearning qLearning = new QLearning(environment.getGridWorld());
+//        qLearning.computeQTable(w, 100);
+//        world.getRewardHeatMap(0, w);
+//        GridWorldPolicy policy = qLearning.getPolicy();
+//        System.out.println(qLearning.toString());
+//        LinkedList<Cell> path = policy.getPath();
+//        for(Cell c: path)
+//            System.out.println(new Position(c.getRow(), c.getColumn()));
     }
 }

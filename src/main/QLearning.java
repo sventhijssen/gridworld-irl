@@ -1,5 +1,7 @@
 package main;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
@@ -19,12 +21,12 @@ class QLearning
     /**
      * Variable registering the number of actions that can be taken in a two-dimensional grid world.
      */
-    private final static int nrActions = 4;
+    private final int nrActions;
 
     /**
-     * Variable registering gamma (the discount factor) for this Q-learning algorithm.
+     * Variable registering the discount factor for future rewards.
      */
-    private final double gamma;
+    private final double discountFactor;
 
     /**
      * Variable registering alpha (the learning rate) for this Q-learning algorithm.
@@ -35,31 +37,21 @@ class QLearning
      * Constructs a new Q-learning algorithm for the given grid world.
      * The grid world determines the number of states and the number of actions in fixed to four.
      * @param gridWorld     The given grid world.
-     * @param gamma         The given discount factor.
      */
-    private QLearning(GridWorld gridWorld, double gamma)
+    QLearning(GridWorld gridWorld, double discountFactor)
     {
         this.gridWorld = gridWorld;
-        this.gamma = gamma;
+        this.discountFactor = discountFactor;
+        this.nrActions = gridWorld.getActions().size();
         this.alpha = new double[gridWorld.getSize()][nrActions];
         this.qTable = new Double[gridWorld.getSize()][nrActions];
-        Random rnd = new Random();
         for(int i = 0; i < gridWorld.getSize(); i++)
         {
-            for(int j = 0; j < nrActions; j++)
+            for(int j = 0; j < gridWorld.getActions().size(); j++)
             {
-                    qTable[i][j] = (double) rnd.nextInt(10)+1;
+                    qTable[i][j] = Math.random();
             }
         }
-    }
-
-    /**
-     * Constructs a new Q-learning algorithm for the given grid world with the given parameters.
-     * @param gridWorld     The given grid world
-     */
-    QLearning(GridWorld gridWorld)
-    {
-        this(gridWorld, 0.99);
     }
 
     /**
@@ -87,7 +79,7 @@ class QLearning
         double R, Q;
         Position next;
         int a, s;
-        int c = gridWorld.getColumns();
+        int c = gridWorld.getNumberOfColumns();
 
 
         for(int i=0; i < iterations; i++)
@@ -96,9 +88,7 @@ class QLearning
             Position current = gridWorld.getRandomInitialPosition(); //gridWorld.getStartPosition();
 
             alpha = new double[gridWorld.getSize()][nrActions];
-            int maxLength = gridWorld.getSize()*nrActions;
-            int k = 0;
-            while(k < maxLength)
+            while(!gridWorld.hasReachedGoal(current))
             {
                 //System.out.println();
                 //System.out.println("Current: " + current);
@@ -119,10 +109,9 @@ class QLearning
 
                 Q = qTable[s][a]; // Q(s, a)
                 alpha[s][a] += 1;
-                qTable[s][a] = R + 0.9 *  getMaxQ(next); //Q + 1/iterations * R; // m + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
+                qTable[s][a] = R + discountFactor *  getMaxQ(next); //Q + 1/iterations * R; // m + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
-                k++;
             }
         }
 
@@ -143,15 +132,15 @@ class QLearning
         } else {
 
             // Linearize the position of the current state
-            int s = current.getLinearization(gridWorld.getColumns());
+            int s = current.getLinearization(gridWorld.getNumberOfColumns());
 
             // Convert Q-values into probabilities
             Double[] qValues = qTable[s];
             double[] probabilities = softMax(qValues);
             double[] cumProbabilities = getCumulativeProbabilities(probabilities);
-            //System.out.println("Probabilities: " + Arrays.toString(probabilities));
-            //System.out.println("Cumulative probabilities: " + Arrays.toString(cumProbabilities));
-            //System.out.println("Random: "+ rnd);
+//            System.out.println("Probabilities: " + Arrays.toString(probabilities));
+//            System.out.println("Cumulative probabilities: " + Arrays.toString(cumProbabilities));
+//            System.out.println("Random: "+ rnd);
 
             int i;
             for(i=0; i < cumProbabilities.length; i++)
@@ -160,7 +149,7 @@ class QLearning
                     break;
             }
 
-            return getNeighbour(current, i);
+            return getNeighbour(current, gridWorld.getActions().get(i));
 
         }
     }
@@ -182,23 +171,15 @@ class QLearning
         return cumProbabilities;
     }
 
-    private Position getNeighbour(Position current, int direction)
+    private Position getNeighbour(Position current, Action action)
     {
-        if(direction == 0)
-            return new Position(current.getRow()-1, current.getColumn());
-        if(direction == 1)
-            return new Position(current.getRow(), current.getColumn()+1);
-        if(direction == 2)
-            return new Position(current.getRow()-1, current.getColumn());
-        if(direction == 3)
-            return new Position(current.getRow(), current.getColumn()-1);
-        throw new RuntimeException("Undefined direction");
+        return gridWorld.getNewPosition(current, action);
     }
 
     private double[] softMax(Double[] qs)
     {
         double[] ps = new double[qs.length];
-        double temp = 0.2;
+        double temp = 0.3;
 
         double denominator = 0;
         for (Double q : qs)
@@ -218,17 +199,17 @@ class QLearning
      * Returns the optimal policy, based on the Q-table.
      * @return
      */
-    Policy getPolicy()
+    GridWorldPolicy getPolicy()
     {
         System.out.println("Started computing optimal policy");
-        Policy policy = new Policy(gridWorld);
+        GridWorldPolicy policy = new GridWorldPolicy(gridWorld);
         int row, column;
         // Iterate over all states
         for(int i=0; i < gridWorld.getSize(); i++)
         {
-            row = (int) Math.floor((double) i/gridWorld.getColumns());
-            column = i % gridWorld.getColumns();
-            policy.setCell(row, column, new Vector(softMax(qTable[i])));
+            row = (int) Math.floor((double) i/gridWorld.getNumberOfColumns());
+            column = i % gridWorld.getNumberOfColumns();
+            policy.setPolicy(row, column, new Vector(softMax(qTable[i])));
         }
         System.out.println("Stopped computing optimal policy");
         return policy;
@@ -283,14 +264,13 @@ class QLearning
      */
     private int getAction(Position current, Position next)
     {
-        if(next.getRow() == current.getRow()-1)
-            return 0;
-        if(next.getColumn() == current.getColumn()+1)
-            return 1;
-        if(next.getRow() == current.getRow()+1)
-            return 2;
-        if(next.getColumn() == current.getColumn()-1)
-            return 3;
+        Action action;
+        for(int i=0; i < gridWorld.getActions().size(); i++)
+        {
+            action = gridWorld.getActions().get(i);
+            if(current.getRow() + action.getDeltaRow() == next.getRow() && current.getColumn() + action.getDeltaColumn() == next.getColumn())
+                return i;
+        }
         throw new RuntimeException("Positions are not neighbouring. Action undefined");
     }
 
@@ -302,7 +282,7 @@ class QLearning
      */
     private double getReward(Vector w, Position position)
     {
-        return w.dot(gridWorld.getState(position).getFeatures());
+        return w.dot(gridWorld.getFeatures(position));
     }
 
     /**
@@ -320,7 +300,7 @@ class QLearning
 
         for(Position neighbour: neighbours)
         {
-            s = neighbour.getLinearization(gridWorld.getColumns());
+            s = neighbour.getLinearization(gridWorld.getNumberOfColumns());
             a = getAction(position, neighbour);
             qVal = qTable[s][a];
             if(qVal > maxQ)
@@ -336,8 +316,8 @@ class QLearning
         int row, column;
         for(int i=0; i < qTable.length; i++)
         {
-            row = (int) Math.floor((double) i/gridWorld.getColumns());
-            column = i % gridWorld.getColumns();
+            row = (int) Math.floor((double) i/gridWorld.getNumberOfColumns());
+            column = i % gridWorld.getNumberOfColumns();
             out.append("State ").append(new Position(row, column)).append(": ").append(Arrays.toString(qTable[i])).append("\n");
         }
         return out.toString();

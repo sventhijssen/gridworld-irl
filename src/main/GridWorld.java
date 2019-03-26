@@ -11,127 +11,139 @@ import java.util.Random;
 public class GridWorld
 {
 
-    private State[][] states;
+    /**
+     * Variable registering the features for this grid world.
+     */
+    private Vector[][] features;
 
-    private int rows;
+    /**
+     * Variable registering the number of rows.
+     */
+    private int numberOfRows;
 
-    private int columns;
+    /**
+     * Variable registering the number of columns.
+     */
+    private int numberOfColumns;
 
-    private Position startPosition;
+    /**
+     * Variable registering the possible actions for this grid world.
+     */
+    private final ArrayList<Action> actions;
 
-    private Position goalPosition;
+    /**
+     * Variable registering the start position for this grid world.
+     */
+    private final Position startPosition;
 
-    public GridWorld(int rows, int columns)
+    /**
+     * Variable registering the goal positions for this grid world.
+     */
+    private final ArrayList<Position> goalPositions;
+
+    /**
+     * Creates a grid world with numberOfRows numberOfRows and numberOfColumns numberOfColumns.
+     * @param numberOfRows      The given number of numberOfRows.
+     * @param numberOfColumns   The given number of numberOfColumns.
+     */
+    public GridWorld(int numberOfRows, int numberOfColumns, ArrayList<Action> actions, Position startPosition, ArrayList<Position> goalPositions)
     {
-        this.setRows(rows);
-        this.setColumns(columns);
-        this.states =  new State[rows][columns];
-        for(int i = 0; i < rows; i++)
+        this.setNumberOfRows(numberOfRows);
+        this.setNumberOfColumns(numberOfColumns);
+        this.actions = actions;
+        this.startPosition = startPosition;
+        this.goalPositions = goalPositions;
+        this.features =  new Vector[numberOfRows][numberOfColumns];
+        for(int i = 0; i < numberOfRows; i++)
         {
-            for(int j = 0; j < columns; j++)
+            for(int j = 0; j < numberOfColumns; j++)
             {
-                states[i][j] = new State();
+                features[i][j] = new Vector(0);
             }
         }
     }
 
+    /**
+     * Returns the position of neighbouring cells.
+     * @param position
+     * @return
+     */
     LinkedList<Position> getNeighbours(Position position)
     {
-        return this.getNeighbours(position.getRow(), position.getColumn());
+        return getNeighbours(position.getRow(), position.getColumn());
+    }
+
+    Position getNewPosition(Position current, Action action)
+    {
+        return new Position(current.getRow() + action.getDeltaRow(), current.getColumn() + action.getDeltaColumn());
     }
 
 
-    LinkedList<Position> getNeighbours(int row, int column)
+    private LinkedList<Position> getNeighbours(int row, int column)
     {
         LinkedList<Position> neighbours = new LinkedList<>();
-        if(row > 0)
-            neighbours.add(new Position(row-1, column));
-        if(column < this.getColumns()-1)
-            neighbours.add(new Position(row, column+1));
-        if(row < this.getRows()-1)
-            neighbours.add(new Position(row+1, column));
-        if(column > 0)
-            neighbours.add(new Position(row, column-1));
+        Position neighbour;
+        for(Action action: actions)
+        {
+            neighbour = new Position(row + action.getDeltaRow(), column + action.getDeltaColumn());
+            if(isWithinBoundaries(neighbour))
+                neighbours.add(neighbour);
+        }
         return neighbours;
     }
 
     public void setFeature(int row, int column, double[] features)
     {
-        this.states[row][column].setFeatures(features);
+        this.features[row][column] = new Vector(features);
     }
 
-    public State getState(int row, int column)
+    public Vector getFeatures(int row, int column)
     {
-        return states[row][column];
+        return features[row][column];
     }
 
-    public State getState(Position position)
+    public Vector getFeatures(Position position)
     {
-        return states[position.getRow()][position.getColumn()];
+        return features[position.getRow()][position.getColumn()];
     }
 
-    public int getRows()
+    public int getNumberOfRows()
     {
-        return rows;
+        return numberOfRows;
     }
 
-    public void setRows(int rows)
+    public void setNumberOfRows(int numberOfRows)
     {
-        this.rows = rows;
+        this.numberOfRows = numberOfRows;
     }
 
-    public int getColumns()
+    public int getNumberOfColumns()
     {
-        return columns;
+        return numberOfColumns;
     }
 
-    public void setColumns(int columns)
+    public void setNumberOfColumns(int numberOfColumns)
     {
-        this.columns = columns;
+        this.numberOfColumns = numberOfColumns;
     }
 
     /**
      * Returns the board size of this grid world.
-     * @return  The board size of a grid world is equal to the number of states, i.e. rows*columns.
+     * @return  The board size of a grid world is equal to the number of features, i.e. numberOfRows*numberOfColumns.
      */
     int getSize()
     {
-        return this.getRows()*this.getColumns();
-    }
-
-    public void getHeatMap(int feature)
-    {
-        double[][] m = new double[rows][columns];
-        for(int i = 0; i < rows; i++)
-        {
-            for(int j = 0; j < columns; j++)
-            {
-                m[i][j] = states[i][j].getFeatures().getData()[feature];
-            }
-        }
-
-
-
-        HeatChart map = new HeatChart(m);
-
-        try
-        {
-            System.out.println("Heat");
-            map.saveToFile(new File("heatmap_feature_"+feature+".png"));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        return this.getNumberOfRows()*this.getNumberOfColumns();
     }
 
     public void getRewardHeatMap(int k, Vector weights)
     {
-        double[][] m = new double[rows][columns];
-        for(int i = 0; i < rows; i++)
+        double[][] m = new double[numberOfRows][numberOfColumns];
+        for(int i = 0; i < numberOfRows; i++)
         {
-            for(int j = 0; j < columns; j++)
+            for(int j = 0; j < numberOfColumns; j++)
             {
-                m[i][j] = weights.dot(this.getState(i, j).getFeatures());;
+                m[i][j] = weights.dot(this.getFeatures(i, j));;
             }
         }
 
@@ -150,56 +162,31 @@ public class GridWorld
         }
     }
 
-    public void setStartPosition(int row, int column)
-    {
-        this.startPosition = new Position(row, column);
-    }
 
-
-    public void getStartPosition(int row, int column)
+    boolean isWithinBoundaries(int row, int column)
     {
-        this.startPosition = new Position(row, column);
-    }
-
-    public Position getStartPosition()
-    {
-        return startPosition;
+        return (row >= 0 && row < getNumberOfRows() && column >= 0 && column < getNumberOfColumns());
     }
 
     public boolean isWithinBoundaries(Position position)
     {
-        return (position.getRow() >= 0 && position.getRow() <= getRows()-1 && position.getColumn() >= 0 && position.getColumn() <= getColumns()-1);
+        return isWithinBoundaries(position.getRow(), position.getColumn());
     }
 
     public Position getPosition(int s)
     {
-        int row = (int) Math.floor((double) s/getColumns());
-        int column = s % getColumns();
+        int row = (int) Math.floor((double) s/ getNumberOfColumns());
+        int column = s % getNumberOfColumns();
         return (new Position(row, column));
-    }
-
-    public Position getGoalPosition()
-    {
-        return goalPosition;
-    }
-
-    public void setGoalPosition(int row, int column)
-    {
-        this.goalPosition = new Position(row, column);
-    }
-
-    public void setGoalPosition(Position goalPosition)
-    {
-        this.goalPosition = goalPosition;
     }
 
     public Vector getFeatureExpectations(ArrayList<Position> trajectory)
     {
-        Vector mu = new Vector(4);
+        Vector mu = new Vector(features[0][0].length());
         double discountFactor = 0.9;
         for(int t=0; t < trajectory.size(); t++)
         {
-            mu = mu.plus(this.getState(trajectory.get(t)).getFeatures().scale(Math.pow(discountFactor, t)));
+            mu = mu.plus(this.getFeatures(trajectory.get(t)).scale(Math.pow(discountFactor, t)));
         }
         return mu;
     }
@@ -208,9 +195,29 @@ public class GridWorld
     {
         Random random;
         random = new Random();
-        int row = random.nextInt(getRows());
+        int row = random.nextInt(getNumberOfRows());
         random = new Random();
-        int column = random.nextInt(getColumns());
+        int column = random.nextInt(getNumberOfColumns());
         return new Position(row, column);
+    }
+
+    public ArrayList<Action> getActions()
+    {
+        return actions;
+    }
+
+    public ArrayList<Position> getGoalPositions()
+    {
+        return goalPositions;
+    }
+
+    public boolean hasReachedGoal(Position current)
+    {
+        return goalPositions.contains(current);
+    }
+
+    public Position getStartPosition()
+    {
+        return startPosition;
     }
 }

@@ -58,7 +58,7 @@ public class Vector {
             this.data[i] = data[i];
     }
 
-    public double[] getData()
+    public double[] getValues()
     {
         return this.data;
     }

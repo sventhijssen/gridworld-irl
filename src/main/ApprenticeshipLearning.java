@@ -1,16 +1,26 @@
 package main;
 
+import environments.IEnvironment;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 class ApprenticeshipLearning
 {
 
-    private double threshold = 0.001;
+    /**
+     * Variable registering the threshold of this apprenticeship learning instance.
+     */
+    private final double threshold;
 
-    private double discountFactor = 0.9;
+    /**
+     * Variable registering the discount factor of this apprenticeship learning instance.
+     */
+    private final double discountFactor;
 
+    /**
+     * Variable registering the grid world of this apprenticeship learning instance.
+     */
     private GridWorld gridWorld;
 
     private Vector muExpert;
@@ -18,11 +28,30 @@ class ApprenticeshipLearning
     private ArrayList<Double> ts = new ArrayList<>();
     private ArrayList<Vector> ws = new ArrayList<>();
 
-    ApprenticeshipLearning(GridWorld gridWorld, Vector muExpert)
+    /**
+     * Creates an apprenticeship learning instance for the given grid world and the given expert trajectory.
+     * @param gridWorld         The given grid world.
+     * @param expertTrajectory  The given expert trajectory.
+     */
+    ApprenticeshipLearning(GridWorld gridWorld, ArrayList<Position> expertTrajectory)
     {
-        System.out.println("Initializing apprenticeship learning.");
+        this(gridWorld, expertTrajectory, 0.01, 0.9);
+    }
+
+    /**
+     * Creates an apprenticeship learning instance for the given grid world with the given expert trajectory,
+     * the given threshold and discount factor.
+     * @param gridWorld         The given grid world.
+     * @param expertTrajectory  The given expert trajectory.
+     * @param threshold         The given threshold.
+     * @param discountFactor    The given discount factor.
+     */
+    private ApprenticeshipLearning(GridWorld gridWorld, ArrayList<Position> expertTrajectory, double threshold, double discountFactor)
+    {
         this.gridWorld = gridWorld;
-        this.muExpert = muExpert;
+        this.muExpert = gridWorld.getFeatureExpectations(expertTrajectory);
+        this.threshold = threshold;
+        this.discountFactor = discountFactor;
     }
 
     Vector solve()
@@ -31,8 +60,15 @@ class ApprenticeshipLearning
         // Vector muExpert = expertPolicy.getFeatureExpectations(discountFactor);
 
         System.out.printf("-STEP 1, ITERATION %d: Compute feature expectation mu(%d)\n", 0, 0);
-        Policy currentPolicy = PolicyFactory.getRandomPolicy(gridWorld); // π(0)
-        Vector muCurrent = currentPolicy.getFeatureExpectations(discountFactor); // μ(0)
+
+        // Random initial policy π(0)
+        GridWorldPolicy currentPolicy = PolicyFactory.getRandomPolicy(gridWorld, gridWorld.getActions().size());
+
+        // Trajectory for random initial policy
+        ArrayList<Position> currentTrajectory = currentPolicy.getTrajectory(gridWorld.getStartPosition());
+
+        // Feature expectations for random initial policy
+        Vector muCurrent = gridWorld.getFeatureExpectations(currentTrajectory); // μ(0)
 
         Vector muFlat = muCurrent; // μ'(0)
 
@@ -70,13 +106,14 @@ class ApprenticeshipLearning
 
             System.out.printf("-STEP 4, ITERATION %d: Compute optimal policy pi(%d)\n", i, i);
             // Step 4: Compute optimal policy pi_i for the MDP using rewards R = w^T.phi
-            qLearning = new QLearning(gridWorld);
+            qLearning = new QLearning(gridWorld, discountFactor);
             qLearning.computeQTable(w, 100);
             gridWorld.getRewardHeatMap(i, w);
             currentPolicy = qLearning.getPolicy();
             System.out.println(w);
             System.out.println(t);
-            muCurrent = currentPolicy.getFeatureExpectations(discountFactor);
+            currentTrajectory = currentPolicy.getTrajectory(gridWorld.getStartPosition());
+            muCurrent = gridWorld.getFeatureExpectations(currentTrajectory);
 
             System.out.printf("-STEP 5, ITERATION %d: Compute feature expectation mu(%d)\n", i, i);
             // Step 5: Compute mu_i

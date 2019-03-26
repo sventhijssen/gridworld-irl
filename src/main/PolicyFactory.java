@@ -1,15 +1,22 @@
 package main;
 
-public class PolicyFactory
+
+class PolicyFactory
 {
-    public static Policy getRandomPolicy(GridWorld gridWorld)
+    /**
+     * Returns a random policy for the given grid world with the given number of actions.
+     * @param gridWorld     The given grid world.
+     * @param nrActions     The given number of actions in each state.
+     * @return              For each cell in the grid world, a probability distribution among the given actions.
+     */
+    static GridWorldPolicy getRandomPolicy(GridWorld gridWorld, int nrActions)
     {
-        Policy randomPolicy = new Policy(gridWorld);
-        for(int i = 0; i < gridWorld.getRows(); i++)
+        GridWorldPolicy randomPolicy = new GridWorldPolicy(gridWorld);
+        for(int i = 0; i < gridWorld.getNumberOfRows(); i++)
         {
-            for (int j = 0; j < gridWorld.getColumns(); j++)
+            for (int j = 0; j < gridWorld.getNumberOfColumns(); j++)
             {
-                randomPolicy.setCell(i, j, new Vector(DistributionFactory.getProbabilityDistribution(4)));
+                randomPolicy.setPolicy(i, j, new Vector(DistributionFactory.getProbabilityDistribution(nrActions)));
             }
         }
         return randomPolicy;

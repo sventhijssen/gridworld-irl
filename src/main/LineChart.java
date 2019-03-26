@@ -4,16 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 // Based on: https://www.tutorialspoint.com/jfreechart/jfreechart_xy_chart.htm
 public class LineChart
@@ -67,7 +64,7 @@ public class LineChart
             // Make an array list
             ArrayList<Double> wValues = new ArrayList<>();
             for(Vector wVector: wVectors)
-                wValues.add(wVector.getData()[l]);
+                wValues.add(wVector.getValues()[l]);
 
             // Create a new XY series
             XYSeries wSeries = new XYSeries("w_" + l);
