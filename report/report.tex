@@ -3,6 +3,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \author{Sven Thijssen, Emile Valcke}
 \title{Inverse Reinforcement Learning}
 \begin{document}
@@ -25,17 +27,53 @@ $$\max\limits_{t, w} t$$\\
 s.t. $$w^T \mu_E \geq w^T \mu^{(j)} + t, j= 0,...,i-1$$
 $$\|w\|_2 \leq 1$$
 
-Another approach is to use a projection method in which the feature expectations of a policy are recalculated in each iteration
+Another approach is to use a projection method in which the feature expectations of a policy are recalculated in each iteration. From a practical standpoint, this seemed to be the best method to use.
 
-We were unable to find a suitable library to solve this problem
-a reinforcement algorithm is used to compute a policy $\pi$.
+\subsection{Environment}
+The environment on which we tested our implementation is the bicycle storage next to the Computer Science building from KU Leuven. Based on an aerial image from Google Maps (Figure \ref{fig:google}), we created a grid world environment (Figure \ref{fig:gridworld}). For each cell, we defined the following binary features:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+	\hline
+	Feature		&	Meaning		&	Representation\\\hline
+	$\phi_0$		&	Ground		&	Brown\\
+	$\phi_1$		&	Obstacle		&	Grey\\
+	$\phi_2$		&	Water		&	Blue\\
+	$\phi_3$		&	People		&	x\\
+	\hline
+\end{tabular}
+\caption{Features for the grid world}
+\end{table}
+
+The aim is to learn a policy $\pi$, based on an expert demonstration $\zeta$ such that we can recover the rewards for the states in the grid world.
+
+Our initial approach was different however. The idea was to guide the agent towards a goal position (marked by $G$ in Figure \ref{fig:gridworld}) by having a feature which represented the distance from that state to the goal state.
+We both tested linearly decreasing distances and exponentially decreasing distances for states which are positioned further from the goal position. This tended not to work well, possibly because of the fact that it is too fine-grained.
+
+\begin{figure}[h]
+\begin{subfigure}[b]{0.5\textwidth}
+	\includegraphics[width=\textwidth]{google}
+	\caption{Aerial image of the environment}
+	\label{fig:google}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+	\includegraphics[width=\textwidth]{gridworld}
+	\caption{Grid world of the environment}
+	\label{fig:gridworld}
+\end{subfigure}
+\end{figure}
+
+
 
 %TODO q-learning
 %TODO softmax
 %TODO loops solution
 
-\cite{vasquez2014inverse}
 
+
+\cite{vasquez2014inverse}
+\cite{zhifei2012survey}
 \subsection{Experiments}
 
 \section{Conclusion}
