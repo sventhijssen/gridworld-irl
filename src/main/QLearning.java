@@ -119,7 +119,7 @@ class QLearning
 
                 Q = qTable[s][a]; // Q(s, a)
                 alpha[s][a] += 1;
-                qTable[s][a] = R + 0.9 *  getMaxQ(next); //Q + 1/iterations * R; // m + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
+                qTable[s][a] = R + 0.99 *  getMaxQ(next); //Q + 1/iterations * R; // m + gamma * getMaxQ(next) - Q); // Q(s, a) = R(s, a) + gamma * max[Q(s', a')]
 
                 current = next;
                 k++;
