@@ -117,16 +117,18 @@ As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatic
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_1_t}
-	\caption{Grid world with expert trajectory}
+	\caption{Error}
 	\label{fig:experiment1t}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_1_w}
-	\caption{Heat map of the rewards}
+	\caption{Weights}
 	\label{fig:experiment1w}
 \end{subfigure}
 \caption{Experiment 1}
 \end{figure}
+
+\newpage
 
 For a second expert trajectory (Figure \ref{fig:experiment2trajectory}), where the agent tends to prefer the features ground and people, we have set the threshold to a bigger value ($\epsilon= 0.1$) to avoid the slow convergence. In the heat map (Figure \ref{fig:experiment2heatmap}), we observe that states with water have high rewards, which does not correspond with the expert trajectory. Again, this might be due to the fact that the agent has never observed a state in which water is present.
 
@@ -144,24 +146,26 @@ For a second expert trajectory (Figure \ref{fig:experiment2trajectory}), where t
 \caption{Experiment 2}
 \end{figure}
 
+We observe that the number of iterations has decreased drastically for a higher threshold, compared to the previous experiment. The weights in this experiment also tend to converge to zero. 
+
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_t}
-	\caption{Grid world with expert trajectory}
+	\caption{Error}
 	\label{fig:experiment2t}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_w}
-	\caption{Heat map of the rewards}
+	\caption{Weights}
 	\label{fig:experiment2w}
 \end{subfigure}
 \caption{Experiment 2}
 \end{figure}
 
-
-
 \section{Conclusion}
 When it is difficult to define a reward function in a learning task (e.g. reinforcement learning), it is possible to recover a reward function, based on demonstrations by an expert. One such approach is inverse reinforcement learning in which the rewards can be expressed in terms of the feature expectations of a policy. However, it is important to note that the optimization problem is ill-posed and the reward function can be ambiguous.
+
+\newpage
 
 \bibliography{references} 
 \bibliographystyle{ieeetr}
