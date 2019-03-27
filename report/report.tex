@@ -114,7 +114,7 @@ To gain insight in the solutions from the algorithm, we made plots of the error 
 
 As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatically in the first iterations and then slowly converges to zero. In Figure \ref{fig:experiment1w} we see the respective values for $w$ over time. The values fluctuate around zero. This might be due to the fact that the problem is ill-posed.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_1_t}
 	\caption{Grid world with expert trajectory}
@@ -128,7 +128,7 @@ As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatic
 \caption{Experiment 1}
 \end{figure}
 
-For a second expert trajectory, where the agent tends to prefer the features ground and people, we have set the threshold to a bigger value: $0.1$ to avoid the slow convergence. 
+For a second expert trajectory (Figure \ref{fig:experiment2trajectory}), where the agent tends to prefer the features ground and people, we have set the threshold to a bigger value ($\epsilon= 0.1$) to avoid the slow convergence. In the heat map (Figure \ref{fig:experiment2heatmap}), we observe that states with water have high rewards, which does not correspond with the expert trajectory. Again, this might be due to the fact that the agent has never observed a state in which water is present.
 
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
@@ -144,7 +144,7 @@ For a second expert trajectory, where the agent tends to prefer the features gro
 \caption{Experiment 2}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_t}
 	\caption{Grid world with expert trajectory}
