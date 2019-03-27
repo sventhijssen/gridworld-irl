@@ -74,14 +74,6 @@ The aim is to learn a policy $\pi$, based on an expert demonstration $\zeta$ suc
 Our initial approach was different however. The idea was to guide the agent towards a goal position (marked by $G$ in Figure \ref{fig:gridworld}) by having a feature which represented the distance from that state to the goal state.
 We both tested linearly decreasing distances and exponentially decreasing distances for states which are positioned further from the goal position. This tended not to work well, possibly because of the fact that it is too fine-grained.
 
-\subsection{Design decisions}
-For the reinforcement learning algorithm, we have chosen to implement Q-learning because of its intuitive character. The following update-rule was used since we are in a deterministic environment:
-$$Q(s,a) \gets r + \gamma\cdot \max\limits_{a'}Q(s',a')$$
-
-For the action selection mechanism, we considered two approaches: $\epsilon$-greedy and soft-max (Boltzmann). In the setting of $\epsilon$-greedy it is rather difficult to balance exploration and exploitation, whereas Boltzmann generates probabilities among all actions and at any given iteration, any action can be picked.
-
-%TODO loops solution
-
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{google}
@@ -93,11 +85,19 @@ For the action selection mechanism, we considered two approaches: $\epsilon$-gre
 	\caption{Grid world of the environment}
 	\label{fig:gridworld}
 \end{subfigure}
+\caption{Environment}
 \end{figure}
 
-\subsection{Experiments}
-To gain insight in the solutions from the algorithm, we made plots of the error $t$ and the weights $w_i$ for the features $\phi_i$.
+\subsection{Design decisions}
+For the reinforcement learning algorithm, we have chosen to implement Q-learning because of its intuitive character. The following update-rule was used since we are in a deterministic environment:
+$$Q(s,a) \gets r + \gamma\cdot \max\limits_{a'}Q(s',a')$$
 
+For the action selection mechanism, we considered two approaches: $\epsilon$-greedy and soft-max (Boltzmann). In the setting of $\epsilon$-greedy it is rather difficult to balance exploration and exploitation, whereas Boltzmann generates probabilities among all actions and at any given iteration, any action can be picked.
+%TODO loops solution
+
+
+\subsection{Experiments}
+To gain insight in the solutions from the algorithm, we made plots of the error $t$ and the weights $w_i$ for the features $\phi_i$. In the first experiment (Figure \ref{fig:experiment1trajectory}), we have created an expert trajectory which tends to prefer through water (e.g. a duck). In Figure \ref{fig:experiment1heatmap} we see a heat map for the learned rewards in each state. We observe that the reward for states with people is low. This corresponds with the fact that the duck has avoids people. However, it is peculiar that the duck prefers obstacles over water. Again, the duck has never seen a state in with the wall feature. This means that the total sum of this feature over the trajectory is zero and thus, it is possible that an arbitrary weight can be given to this feature.
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_1_gridworld}
@@ -109,6 +109,7 @@ To gain insight in the solutions from the algorithm, we made plots of the error 
 	\caption{Heat map of the rewards}
 	\label{fig:experiment1heatmap}
 \end{subfigure}
+\caption{Experiment 1}
 \end{figure}
 
 As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatically in the first iterations and then slowly converges to zero. In Figure \ref{fig:experiment1w} we see the respective values for $w$ over time. The values fluctuate around zero. This might be due to the fact that the problem is ill-posed.
@@ -124,6 +125,7 @@ As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatic
 	\caption{Heat map of the rewards}
 	\label{fig:experiment1w}
 \end{subfigure}
+\caption{Experiment 1}
 \end{figure}
 
 For a second expert trajectory, where the agent tends to prefer the features ground and people, we have set the threshold to a bigger value: $0.1$ to avoid the slow convergence. 
@@ -132,31 +134,34 @@ For a second expert trajectory, where the agent tends to prefer the features gro
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_gridworld}
 	\caption{Grid world with expert trajectory}
-	\label{fig:experiment1trajectory}
+	\label{fig:experiment2trajectory}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_heatmap}
 	\caption{Heat map of the rewards}
-	\label{fig:experiment1heatmap}
+	\label{fig:experiment2heatmap}
 \end{subfigure}
+\caption{Experiment 2}
 \end{figure}
 
 \begin{figure}
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_t}
 	\caption{Grid world with expert trajectory}
-	\label{fig:experiment1t}
+	\label{fig:experiment2t}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_w}
 	\caption{Heat map of the rewards}
-	\label{fig:experiment1w}
+	\label{fig:experiment2w}
 \end{subfigure}
+\caption{Experiment 2}
 \end{figure}
 
 
 
 \section{Conclusion}
+When it is difficult to define a reward function in a learning task (e.g. reinforcement learning), it is possible to recover a reward function, based on demonstrations by an expert. One such approach is inverse reinforcement learning in which the rewards can be expressed in terms of the feature expectations of a policy. However, it is important to note that the optimization problem is ill-posed and the reward function can be ambiguous.
 
 \bibliography{references} 
 \bibliographystyle{ieeetr}
