@@ -14,7 +14,7 @@
 Reinforcement Learning is a learning task in which an agent tries to optimize its actions, based on its state and rewards in a given environment. For Inverse Reinforcement Learning, the agent is not aware of the rewards and tries to learn the reward function by looking at an expert's behavior. Inverse reinforcement learning accomplishes two tasks: reward learning and apprenticeship learning. Reward learning is about estimating the reward function as accurately as possible, given the expert policy. Apprenticeship learning is about observing an expert and using the learned reward function to pick actions in a new environment. The main goal of this to get an optimal policy that maximizes the cumulative rewards.
 
 \section{Literature}
-Our starting point was \textit{Inverse Reinforcement Learning} by Pieter Abbeel and Andrew Y. Ng in the \textit{Encyclopedia of Machine Learning} \cite{sammut2011encyclopedia}. According to its definition, the goal of inverse reinforcement learning is to extract a reward function, given observed behavior of an agent in an environment. The main motivation for this learning task is the difficulty of defining rewards for actions performed by the agent. In this paper and all the other papers we read about Inverse Reinforcement Learning, the environment was modeled by the Markov Decision Process framework.\\ It is a model for a stochastic control process where the decision making is partly random and under control of a decision maker. Only the present state matters. This entails that previous states of an agent don't have influence on the decision making in the current state. The rules are also stationary in this world.\\\\
+Our starting point was \textit{Inverse Reinforcement Learning} by P. Abbeel and A. Y. Ng in the \textit{Encyclopedia of Machine Learning} \cite{sammut2011encyclopedia}. According to its definition, the goal of inverse reinforcement learning is to extract a reward function, given observed behavior of an agent in an environment. The main motivation for this learning task is the difficulty of defining rewards for actions performed by the agent. In this paper and all the other papers we read about Inverse Reinforcement Learning, the environment was modeled by the Markov Decision Process framework.\\ It is a model for a stochastic control process where the decision making is partly random and under control of a decision maker. Only the present state matters. This entails that previous states of an agent don't have influence on the decision making in the current state. The rules are also stationary in this world.\\\\
 
 A finite Markov Decision Process consists of a tuple $\langle S,A,T,R \rangle$ where:
 
@@ -100,6 +100,7 @@ For the action selection mechanism, we considered two approaches: $\epsilon$-gre
 
 \subsection{Experiments}
 To gain insight in the solutions from the algorithm, we made plots of the error $t$ and the weights $w_i$ for the features $\phi_i$. In the first experiment (Figure \ref{fig:experiment1trajectory}), we have created an expert trajectory which tends to prefer through water (e.g. a duck). In Figure \ref{fig:experiment1heatmap} we see a heat map for the learned rewards in each state. We observe that the reward for states with people is low. This corresponds with the fact that the duck has avoided people. However, it is peculiar that the duck prefers obstacles over water. Again, the duck has never seen a state with the wall feature. This means that the total sum of this feature over the trajectory is zero and thus, it is possible that an arbitrary weight can be given to this feature.
+
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_1_gridworld}
@@ -113,6 +114,8 @@ To gain insight in the solutions from the algorithm, we made plots of the error 
 \end{subfigure}
 \caption{Experiment 1}
 \end{figure}
+
+\newpage
 
 As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatically in the first iterations and then slowly converges to zero. In Figure \ref{fig:experiment1w} we see the respective values for $w$ over time. The values fluctuate around zero. This might be due to the fact that the problem is ill-posed.
 
@@ -129,8 +132,6 @@ As we can observe in Figure \ref{fig:experiment1t}, the error $t$ drops dramatic
 \end{subfigure}
 \caption{Experiment 1}
 \end{figure}
-
-\newpage
 
 For a second expert trajectory (Figure \ref{fig:experiment2trajectory}), where the agent tends to prefer the features ground and people, we have set the threshold to a bigger value ($\epsilon= 0.1$) to avoid the slow convergence. In the heat map (Figure \ref{fig:experiment2heatmap}), we observe that states with water have high rewards, which does not correspond with the expert trajectory. Again, this might be due to the fact that the agent has never observed a state in which water is present.
 
@@ -150,6 +151,11 @@ For a second expert trajectory (Figure \ref{fig:experiment2trajectory}), where t
 
 We observe that the number of iterations has decreased drastically for a higher threshold, compared to the previous experiment. The weights in this experiment also tend to converge to zero. 
 
+\section{Conclusion}
+When it is difficult to define a reward function in a learning task (e.g. reinforcement learning), it is possible to recover a reward function, based on demonstrations by an expert. One such approach is inverse reinforcement learning in which the rewards can be expressed in terms of the feature expectations of a policy. However, it is important to note that the optimization problem is ill-posed and the reward function can be ambiguous.
+
+\newpage
+
 \begin{figure}[h]
 \begin{subfigure}[b]{0.5\textwidth}
 	\includegraphics[width=\textwidth]{experiment_2_t}
@@ -163,9 +169,6 @@ We observe that the number of iterations has decreased drastically for a higher 
 \end{subfigure}
 \caption{Experiment 2}
 \end{figure}
-
-\section{Conclusion}
-When it is difficult to define a reward function in a learning task (e.g. reinforcement learning), it is possible to recover a reward function, based on demonstrations by an expert. One such approach is inverse reinforcement learning in which the rewards can be expressed in terms of the feature expectations of a policy. However, it is important to note that the optimization problem is ill-posed and the reward function can be ambiguous.
 
 \newpage
 
